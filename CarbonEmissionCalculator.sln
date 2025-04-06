@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35828.75
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{B23EE2CE-1552-405D-A2F7-FED8760E56A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{E393F9A9-79D3-4DE9-8846-0D7EB44346C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontends", "Frontends", "{9753BA3C-A56F-49C1-B8E4-81F7197C708E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonEmissionCalculator.Infrastructure", "Infrastructure\CarbonEmissionCalculator.Infrastructure\CarbonEmissionCalculator.Infrastructure.csproj", "{22D2953A-787B-47E4-BC1B-6B49D9CF090D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonEmissionCalculator.Application", "Core\CarbonEmissionCalculator.Application\CarbonEmissionCalculator.Application.csproj", "{FE2BC7BB-1873-4E51-8ACA-59399B50B8F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonEmissionCalculator.Domain", "Core\CarbonEmissionCalculator.Domain\CarbonEmissionCalculator.Domain.csproj", "{7276DED5-891F-43A0-A4BF-03694CF7EB99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonEmissionCalculator.Persistence", "Infrastructure\CarbonEmissionCalculator.Persistence\CarbonEmissionCalculator.Persistence.csproj", "{19001676-F73E-473D-805C-76BE0555207E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarbonEmissionCalculator.MVCWebUI", "CarbonEmissionCalculator.MVCWebUI\CarbonEmissionCalculator.MVCWebUI.csproj", "{F150BA21-1552-4EA2-8264-A9F4E6C17B30}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22D2953A-787B-47E4-BC1B-6B49D9CF090D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22D2953A-787B-47E4-BC1B-6B49D9CF090D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22D2953A-787B-47E4-BC1B-6B49D9CF090D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22D2953A-787B-47E4-BC1B-6B49D9CF090D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE2BC7BB-1873-4E51-8ACA-59399B50B8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE2BC7BB-1873-4E51-8ACA-59399B50B8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE2BC7BB-1873-4E51-8ACA-59399B50B8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE2BC7BB-1873-4E51-8ACA-59399B50B8F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7276DED5-891F-43A0-A4BF-03694CF7EB99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7276DED5-891F-43A0-A4BF-03694CF7EB99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7276DED5-891F-43A0-A4BF-03694CF7EB99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7276DED5-891F-43A0-A4BF-03694CF7EB99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19001676-F73E-473D-805C-76BE0555207E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19001676-F73E-473D-805C-76BE0555207E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19001676-F73E-473D-805C-76BE0555207E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19001676-F73E-473D-805C-76BE0555207E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F150BA21-1552-4EA2-8264-A9F4E6C17B30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F150BA21-1552-4EA2-8264-A9F4E6C17B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F150BA21-1552-4EA2-8264-A9F4E6C17B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F150BA21-1552-4EA2-8264-A9F4E6C17B30}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{22D2953A-787B-47E4-BC1B-6B49D9CF090D} = {B23EE2CE-1552-405D-A2F7-FED8760E56A8}
+		{FE2BC7BB-1873-4E51-8ACA-59399B50B8F0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{7276DED5-891F-43A0-A4BF-03694CF7EB99} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{19001676-F73E-473D-805C-76BE0555207E} = {B23EE2CE-1552-405D-A2F7-FED8760E56A8}
+		{F150BA21-1552-4EA2-8264-A9F4E6C17B30} = {9753BA3C-A56F-49C1-B8E4-81F7197C708E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ADA233ED-6FB5-473E-B5FF-DF7E23ECB081}
+	EndGlobalSection
+EndGlobal
