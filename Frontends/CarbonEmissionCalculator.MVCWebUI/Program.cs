@@ -1,7 +1,17 @@
+using CarbonEmissionCalculator.Application;
+using CarbonEmissionCalculator.CustomMapper;
+using CarbonEmissionCalculator.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+#region AllLayers
+builder.Services.AddApplication();
+builder.Services.AddCustomMapper();
+builder.Services.AddPersistence(builder.Configuration);
+#endregion
 
 var app = builder.Build();
 
