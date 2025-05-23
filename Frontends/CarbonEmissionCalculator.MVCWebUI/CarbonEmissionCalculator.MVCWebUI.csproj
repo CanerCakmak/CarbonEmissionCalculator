@@ -16,11 +16,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\CarbonEmissionCalculator.Application\CarbonEmissionCalculator.Application.csproj" />
-    <ProjectReference Include="..\..\Core\CarbonEmissionCalculator.CustomMapper\CarbonEmissionCalculator.CustomMapper.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\CarbonEmissionCalculator.Infrastructure\CarbonEmissionCalculator.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\CarbonEmissionCalculator.Persistence\CarbonEmissionCalculator.Persistence.csproj" />
-  </ItemGroup>
-
 </Project>

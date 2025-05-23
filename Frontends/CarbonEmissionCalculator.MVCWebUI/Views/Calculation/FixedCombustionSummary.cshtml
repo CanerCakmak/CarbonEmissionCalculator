@@ -1,0 +1,119 @@
+@model List<CarbonEmissionCalculator.MVCWebUI.Models.FixedCombustionSummaryViewModel>
+@{
+    ViewData["Title"] = "Sabit Yanma Özet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <h5 class="card-header">Sabit Yanma Emisyon Özeti</h5>
+    <div class="card-body">
+        <div class="table-responsive text-nowrap">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Yakıt Türü</th>
+                        <th>Tüketim Miktarı (m³)</th>
+                        <th>CO2 (kg)</th>
+                        <th>CO2 (ton)</th>
+                        <th>CH4 (kg)</th>
+                        <th>CH4 (ton)</th>
+                        <th>N2O (kg)</th>
+                        <th>N2O (ton)</th>
+                        <th>Toplam CO2e (kg)</th>
+                        <th>Toplam CO2e (ton)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.FuelType</td>
+                            <td>@item.ConsumptionAmount.ToString("N2")</td>
+                            <td>@item.CO2Emission.ToString("N2")</td>
+                            <td>@((item.CO2Emission / 1000).ToString("N3"))</td>
+                            <td>@item.CH4Emission.ToString("N2")</td>
+                            <td>@((item.CH4Emission / 1000).ToString("N3"))</td>
+                            <td>@item.N2OEmission.ToString("N2")</td>
+                            <td>@((item.N2OEmission / 1000).ToString("N3"))</td>
+                            <td>@item.TotalCO2e.ToString("N2")</td>
+                            <td>@((item.TotalCO2e / 1000).ToString("N3"))</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="table-primary">
+                        <td><strong>Toplam</strong></td>
+                        <td>@Model.Sum(x => x.ConsumptionAmount).ToString("N2")</td>
+                        <td>@Model.Sum(x => x.CO2Emission).ToString("N2")</td>
+                        <td>@((Model.Sum(x => x.CO2Emission) / 1000).ToString("N3"))</td>
+                        <td>@Model.Sum(x => x.CH4Emission).ToString("N2")</td>
+                        <td>@((Model.Sum(x => x.CH4Emission) / 1000).ToString("N3"))</td>
+                        <td>@Model.Sum(x => x.N2OEmission).ToString("N2")</td>
+                        <td>@((Model.Sum(x => x.N2OEmission) / 1000).ToString("N3"))</td>
+                        <td>@Model.Sum(x => x.TotalCO2e).ToString("N2")</td>
+                        <td>@((Model.Sum(x => x.TotalCO2e) / 1000).ToString("N3"))</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Grafik için canvas elementi -->
+<div class="card mt-4">
+    <h5 class="card-header">Emisyon Dağılımı</h5>
+    <div class="card-body">
+        <canvas id="emissionChart"></canvas>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Grafik verilerini hazırla
+        const fuelTypes = @Json.Serialize(Model.Select(x => x.FuelType).ToList());
+        const co2Data = @Json.Serialize(Model.Select(x => x.CO2Emission).ToList());
+        const ch4Data = @Json.Serialize(Model.Select(x => x.CH4Emission).ToList());
+        const n2oData = @Json.Serialize(Model.Select(x => x.N2OEmission).ToList());
+
+        // Grafik oluştur
+        const ctx = document.getElementById('emissionChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: fuelTypes,
+                datasets: [
+                    {
+                        label: 'CO2 Emisyonu (kg)',
+                        data: co2Data,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'CH4 Emisyonu (kg)',
+                        data: ch4Data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'N2O Emisyonu (kg)',
+                        data: n2oData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+} 
