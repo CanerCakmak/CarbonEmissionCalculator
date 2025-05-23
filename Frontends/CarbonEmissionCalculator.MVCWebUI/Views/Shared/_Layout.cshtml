@@ -74,6 +74,34 @@
                         
                     </div>
                     <!-- / Content -->
+                    
+                    <!-- Calculation Navigation -->
+                    <div id="calculationNav" class="container-xxl d-none">
+                        <div class="row justify-content-between bg-light p-3 rounded mb-4">
+                            <div class="col-auto">
+                                <button id="prevCalcBtn" class="btn btn-outline-primary">
+                                    <i class="fa-solid fa-arrow-left me-2"></i>Önceki Hesaplama
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="calculationSteps" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Hesaplama Adımları
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="calculationSteps" id="calculationStepsList">
+                                        <!-- List items will be added dynamically via JavaScript -->
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <button id="nextCalcBtn" class="btn btn-primary">
+                                    Sonraki Hesaplama<i class="fa-solid fa-arrow-right ms-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- / Calculation Navigation -->
+                    
                     <!-- Footer -->
                     @await Component.InvokeAsync("_FooterLayoutComponentPartial")
                     <!-- / Footer -->
@@ -110,6 +138,139 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    
+    <!-- Calculation Navigation Script -->
+    <script>
+        // Hesaplama sayfalarının yolu ve başlıkları
+        const calculationCategories = [
+            {
+                title: "Sabit Yanma",
+                pages: [
+                    { path: '/Calculation/FixedCombustion', title: 'Doğalgaz' },
+                    { path: '/Calculation/FixedCombustionDiesel', title: 'Dizel' },
+                    { path: '/Calculation/FixedCombustionGasoline', title: 'Benzin' },
+                    { path: '/Calculation/FixedCombustionLPG', title: 'LPG' },
+                    { path: '/Calculation/FixedCombustionSummary', title: 'Özet Rapor' }
+                ]
+            },
+            {
+                title: "Mobil Yanma - On-Road Araçlar",
+                pages: [
+                    { path: '/Calculation/MobileOnRoadDiesel', title: 'Dizel' },
+                    { path: '/Calculation/MobileOnRoadGasoline', title: 'Benzin' },
+                    { path: '/Calculation/MobileOnRoadLPG', title: 'LPG' }
+                ]
+            },
+            {
+                title: "Mobil Yanma - Off-Road Araçlar",
+                pages: [
+                    { path: '/Calculation/MobileOffRoadDiesel', title: 'Dizel' },
+                    { path: '/Calculation/MobileOffRoadGasoline', title: 'Benzin' }
+                ]
+            },
+            {
+                title: "Özet",
+                pages: [
+                    { path: '/Calculation/MobileCombustionSummary', title: 'Mobil Yanma Özet' }
+                ]
+            }
+        ];
+
+        // Tüm hesaplama sayfalarını düz bir diziye dönüştür
+        const calculationPages = [];
+        calculationCategories.forEach(category => {
+            category.pages.forEach(page => {
+                calculationPages.push({
+                    path: page.path,
+                    title: page.title,
+                    categoryTitle: category.title
+                });
+            });
+        });
+
+        // DOM yüklendikten sonra
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mevcut sayfa yolunu al
+            const currentPath = window.location.pathname.toLowerCase();
+            
+            // Bu bir hesaplama sayfası mı kontrol et
+            const isCalculationPage = calculationPages.some(page => page.path.toLowerCase() === currentPath);
+            
+            if (isCalculationPage) {
+                // Hesaplama navigasyonunu göster
+                document.getElementById('calculationNav').classList.remove('d-none');
+                
+                // Mevcut sayfanın indeksini bul
+                const currentIndex = calculationPages.findIndex(page => page.path.toLowerCase() === currentPath);
+                
+                // Dropdown listesini doldur
+                const dropdownList = document.getElementById('calculationStepsList');
+                
+                // Kategorilere göre dropdown menüyü oluştur
+                calculationCategories.forEach(category => {
+                    // Kategori başlığı
+                    const headerItem = document.createElement('li');
+                    const headerDiv = document.createElement('div');
+                    headerDiv.className = 'dropdown-header text-uppercase fw-bold';
+                    headerDiv.textContent = category.title;
+                    headerItem.appendChild(headerDiv);
+                    dropdownList.appendChild(headerItem);
+                    
+                    // Kategori sayfaları
+                    category.pages.forEach(page => {
+                        const listItem = document.createElement('li');
+                        const link = document.createElement('a');
+                        const isCurrentPage = page.path.toLowerCase() === currentPath;
+                        link.className = 'dropdown-item' + (isCurrentPage ? ' active bg-primary text-white' : '');
+                        link.href = page.path;
+                        // Sayfa başlığını kategori olmadan göster
+                        link.textContent = page.title;
+                        // Sol tarafta girinti ekle
+                        link.style.paddingLeft = '1.5rem';
+                        listItem.appendChild(link);
+                        dropdownList.appendChild(listItem);
+                    });
+                    
+                    // Kategoriler arasına ayırıcı ekle (son kategori hariç)
+                    if (category !== calculationCategories[calculationCategories.length - 1]) {
+                        const divider = document.createElement('li');
+                        const dividerHr = document.createElement('hr');
+                        dividerHr.className = 'dropdown-divider';
+                        divider.appendChild(dividerHr);
+                        dropdownList.appendChild(divider);
+                    }
+                });
+                
+                // Dropdown menü stilini düzenle
+                const dropdownMenu = document.querySelector('.dropdown-menu');
+                dropdownMenu.style.minWidth = '240px';
+                
+                // Önceki/Sonraki butonlarını yapılandır
+                const prevBtn = document.getElementById('prevCalcBtn');
+                const nextBtn = document.getElementById('nextCalcBtn');
+                
+                // Önceki sayfa varsa
+                if (currentIndex > 0) {
+                    prevBtn.addEventListener('click', function() {
+                        window.location.href = calculationPages[currentIndex - 1].path;
+                    });
+                } else {
+                    prevBtn.disabled = true;
+                    prevBtn.classList.add('disabled');
+                }
+                
+                // Sonraki sayfa varsa
+                if (currentIndex < calculationPages.length - 1) {
+                    nextBtn.addEventListener('click', function() {
+                        window.location.href = calculationPages[currentIndex + 1].path;
+                    });
+                } else {
+                    nextBtn.disabled = true;
+                    nextBtn.classList.add('disabled');
+                }
+            }
+        });
+    </script>
 </body>
 </html>
 

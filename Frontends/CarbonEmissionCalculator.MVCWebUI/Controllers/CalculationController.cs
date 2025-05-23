@@ -12,11 +12,6 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
             return View();
         }
 
-        public IActionResult MobileCombustion()
-        {
-            return View();
-        }
-
         public IActionResult FixedCombustionNaturalGas()
         {
             return View();
@@ -67,17 +62,49 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
             return View(summaryList);
         }
 
-        public IActionResult MobileCombustionDiesel()
+        // Mobil Yanma Ana Sayfası
+        public IActionResult MobileCombustion()
         {
             return View();
         }
 
-        public IActionResult MobileCombustionGasoline()
+        // On-Road Araçlar Ana Sayfası
+        public IActionResult MobileOnRoad()
+        {
+            // Varsayılan olarak dizel sayfasına yönlendir
+            return RedirectToAction("MobileOnRoadDiesel");
+        }
+
+        // Off-Road Araçlar Ana Sayfası
+        public IActionResult MobileOffRoad()
+        {
+            // Varsayılan olarak dizel sayfasına yönlendir
+            return RedirectToAction("MobileOffRoadDiesel");
+        }
+
+        // On-Road Araçlar için Action Methodları
+        public IActionResult MobileOnRoadDiesel()
         {
             return View();
         }
 
-        public IActionResult MobileCombustionLPG()
+        public IActionResult MobileOnRoadGasoline()
+        {
+            return View();
+        }
+
+        public IActionResult MobileOnRoadLPG()
+        {
+            return View();
+        }
+
+        // Off-Road Araçlar için Action Methodları
+        public IActionResult MobileOffRoadDiesel()
+        {
+            return View();
+        }
+
+        public IActionResult MobileOffRoadGasoline()
         {
             return View();
         }

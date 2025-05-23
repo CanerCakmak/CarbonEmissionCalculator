@@ -64,26 +64,54 @@
 
         <!-- Mobil Yanma -->
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <a href="/Calculation/MobileCombustion" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-car"></i>
                 <div data-i18n="MobilYanma">Şirket Araçları - Mobil Yanma</div>
             </a>
             <ul class="menu-sub">
+                <!-- On-Road Araçlar -->
                 <li class="menu-item">
-                    <a href="/Calculation/MobileCombustionDiesel" class="menu-link">
-                        <div data-i18n="Dizel">Dizel</div>
+                    <a href="/Calculation/MobileOnRoad" class="menu-link menu-toggle">
+                        <div data-i18n="OnRoadAraclar">On-Road Araçlar</div>
                     </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item">
+                            <a href="/Calculation/MobileOnRoadDiesel" class="menu-link">
+                                <div data-i18n="OnRoadDizel">Dizel</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/Calculation/MobileOnRoadGasoline" class="menu-link">
+                                <div data-i18n="OnRoadBenzin">Benzin</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/Calculation/MobileOnRoadLPG" class="menu-link">
+                                <div data-i18n="OnRoadLPG">LPG</div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+                
+                <!-- Off-Road Araçlar -->
                 <li class="menu-item">
-                    <a href="/Calculation/MobileCombustionGasoline" class="menu-link">
-                        <div data-i18n="Benzin">Benzin</div>
+                    <a href="/Calculation/MobileOffRoad" class="menu-link menu-toggle">
+                        <div data-i18n="OffRoadAraclar">Off-Road Araçlar</div>
                     </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item">
+                            <a href="/Calculation/MobileOffRoadDiesel" class="menu-link">
+                                <div data-i18n="OffRoadDizel">Dizel</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/Calculation/MobileOffRoadGasoline" class="menu-link">
+                                <div data-i18n="OffRoadBenzin">Benzin</div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="menu-item">
-                    <a href="/Calculation/MobileCombustionLPG" class="menu-link">
-                        <div data-i18n="LPG">LPG</div>
-                    </a>
-                </li>
+                
                 <li class="menu-item">
                     <a href="/Calculation/MobileCombustionSummary" class="menu-link">
                         <div data-i18n="Ozet">Özet Rapor</div>
