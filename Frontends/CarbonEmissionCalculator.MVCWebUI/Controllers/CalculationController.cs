@@ -143,5 +143,20 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
         {
             return View();
         }
+
+        public IActionResult RefrigerantGases()
+        {
+            return View();
+        }
+
+        public IActionResult WastewaterTreatment()
+        {
+            return View();
+        }
+
+        public IActionResult CarbonContainingMaterial()
+        {
+            return View();
+        }
     }
 } 

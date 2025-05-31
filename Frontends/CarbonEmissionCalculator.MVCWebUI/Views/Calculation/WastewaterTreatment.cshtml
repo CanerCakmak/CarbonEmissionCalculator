@@ -1,0 +1,132 @@
+@{
+    ViewData["Title"] = "Atık Su Arıtma Tesisi";
+}
+
+<div class="container-fluid px-4">
+    <h2 class="mt-4">Atık Su Arıtma Tesisi Emisyon Hesaplama</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <form id="wastewaterTreatmentForm">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Arıtılan Atık Su Türü</th>
+                                <th>Arıtılan Atık Su Miktarı</th>
+                                <th>Birimi</th>
+                                <th>Emisyon Faktörü (kg CO₂e/m³)</th>
+                                <th colspan="2">Toplam Emisyon</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>kg CO₂e</th>
+                                <th>Ton CO₂e</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Endüstriyel</td>
+                                <td><input type="number" class="form-control amount" /></td>
+                                <td>m³</td>
+                                <td><input type="number" class="form-control emission-factor" value="0.186" step="0.001" /></td>
+                                <td><input type="number" class="form-control kg-co2e" readonly /></td>
+                                <td><input type="number" class="form-control ton-co2e" readonly /></td>
+                            </tr>
+                            <tr>
+                                <td>Evsel</td>
+                                <td><input type="number" class="form-control amount" /></td>
+                                <td>m³</td>
+                                <td><input type="number" class="form-control emission-factor" value="0.186" step="0.001" /></td>
+                                <td><input type="number" class="form-control kg-co2e" readonly /></td>
+                                <td><input type="number" class="form-control ton-co2e" readonly /></td>
+                            </tr>
+                            <tr>
+                                <td>Endüstriyel ve Evsel</td>
+                                <td><input type="number" class="form-control amount" /></td>
+                                <td>m³</td>
+                                <td><input type="number" class="form-control emission-factor" value="0.186" step="0.001" /></td>
+                                <td><input type="number" class="form-control kg-co2e" readonly /></td>
+                                <td><input type="number" class="form-control ton-co2e" readonly /></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-end"><strong>TOPLAM</strong></td>
+                                <td><input type="number" class="form-control" id="total-kg-co2e" readonly /></td>
+                                <td><input type="number" class="form-control" id="total-ton-co2e" readonly /></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Hesapla</button>
+                        <button type="reset" class="btn btn-secondary">Temizle</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            function calculateRow(row) {
+                const amount = parseFloat(row.find('.amount').val()) || 0;
+                const emissionFactor = parseFloat(row.find('.emission-factor').val()) || 0;
+
+                // Calculate emissions
+                const kgCO2e = amount * emissionFactor;
+                row.find('.kg-co2e').val(kgCO2e.toFixed(2));
+
+                // Ton CO2e is always kg CO2e * 0.001
+                const tonCO2e = kgCO2e * 0.001;
+                row.find('.ton-co2e').val(tonCO2e.toFixed(3));
+
+                calculateTotals();
+            }
+
+            function calculateTotals() {
+                let totalKgCO2e = 0;
+
+                $('.kg-co2e').each(function() {
+                    totalKgCO2e += parseFloat($(this).val()) || 0;
+                });
+
+                // Set total kg CO2e
+                $('#total-kg-co2e').val(totalKgCO2e.toFixed(2));
+                
+                // Total ton CO2e is always total kg CO2e * 0.001
+                const totalTonCO2e = totalKgCO2e * 0.001;
+                $('#total-ton-co2e').val(totalTonCO2e.toFixed(3));
+            }
+
+            // Attach event handlers to input fields
+            $('.amount, .emission-factor').on('input', function() {
+                calculateRow($(this).closest('tr'));
+            });
+
+            // Handle form submission
+            $('#wastewaterTreatmentForm').on('submit', function(e) {
+                e.preventDefault();
+                // You can add additional logic here for form submission
+                calculateTotals();
+            });
+
+            // Handle form reset
+            $('#wastewaterTreatmentForm').on('reset', function() {
+                setTimeout(function() {
+                    $('tbody tr').each(function() {
+                        calculateRow($(this));
+                    });
+                }, 0);
+            });
+        });
+    </script>
+} 
