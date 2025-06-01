@@ -1,0 +1,482 @@
+@{
+    ViewData["Title"] = "Şirket Araçları - Binek ve Yük Araçları";
+}
+
+<style>
+    .table td input {
+        min-width: 120px;
+    }
+    
+    .table td:first-child {
+        min-width: 100px;
+    }
+    
+    .table td:nth-child(2) {
+        min-width: 100px;
+    }
+    
+    .table td:nth-child(3) input {
+        min-width: 150px;
+    }
+    
+    .table td:nth-child(5) input,
+    .table td:nth-child(6) input,
+    .table td:nth-child(7) input {
+        min-width: 150px; /* Emisyon faktörü kolonları */
+    }
+    
+    .table td:nth-child(8) input,
+    .table td:nth-child(9) input,
+    .table td:nth-child(10) input,
+    .table td:nth-child(11) input,
+    .table td:nth-child(12) input {
+        min-width: 150px; /* Emisyon ve toplam emisyon kolonları */
+    }
+
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: white;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center sticky-header">
+        <h5 class="mb-0">Şirket Araçları - Binek ve Yük Araçları</h5>
+        <a href="/" class="btn btn-sm btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Geri
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive text-nowrap">
+            <form id="companyVehiclesForm">
+                <table class="table table-bordered">
+                    <thead class="sticky-header">
+                        <tr class="text-center bg-light">
+                            <th>Araç Türü</th>
+                            <th>Yakıt Türü</th>
+                            <th>Toplam Mesafe</th>
+                            <th>Birimi</th>
+                            <th colspan="3">Emisyon Faktörü</th>
+                            <th colspan="3">Emisyon</th>
+                            <th colspan="2">Toplam Emisyon</th>
+                        </tr>
+                        <tr class="text-center bg-light">
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>kg CO₂/km</th>
+                            <th>kg CH₄/km</th>
+                            <th>kg N₂O/km</th>
+                            <th>kg CO₂</th>
+                            <th>kg CH₄</th>
+                            <th>kg N₂O</th>
+                            <th>kg CO₂e</th>
+                            <th>ton CO₂e</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Küçük Araç -->
+                        <tr>
+                            <td rowspan="4">Küçük Araç</td>
+                            <td>Dizel</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Benzin</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>LPG</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Bilinmeyen</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+
+                        <!-- Orta Araç -->
+                        <tr>
+                            <td rowspan="4">Orta Araç</td>
+                            <td>Dizel</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Benzin</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>LPG</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Bilinmeyen</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+
+                        <!-- Büyük Araç -->
+                        <tr>
+                            <td rowspan="4">Büyük Araç</td>
+                            <td>Dizel</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Benzin</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>LPG</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Bilinmeyen</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+
+                        <!-- Ortalama Araç -->
+                        <tr>
+                            <td rowspan="4">Ortalama Araç</td>
+                            <td>Dizel</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Benzin</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>LPG</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Bilinmeyen</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+
+                        <!-- Kamyonet -->
+                        <tr>
+                            <td rowspan="4">Kamyonet</td>
+                            <td>Dizel</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Benzin</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>LPG</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Bilinmeyen</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+
+                        <!-- Ağır Yük Taşıtı -->
+                        <tr>
+                            <td rowspan="2">Ağır Yük Taşıtı</td>
+                            <td>100% Yüklü</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Ortalama Yüklü</td>
+                            <td><input type="number" class="form-control text-end distance" step="0.001" min="0"></td>
+                            <td>km</td>
+                            <td><input type="number" class="form-control text-end ef-co2" step="0.000001"></td>
+                            <td><input type="number" class="form-control text-end ef-ch4" step="0.0000001"></td>
+                            <td><input type="number" class="form-control text-end ef-n2o" step="0.00001"></td>
+                            <td><input type="number" class="form-control text-end emission-co2" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-ch4" readonly></td>
+                            <td><input type="number" class="form-control text-end emission-n2o" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-kg" readonly></td>
+                            <td><input type="number" class="form-control text-end total-emission-ton" readonly></td>
+                        </tr>
+
+                        <!-- Totals Row -->
+                        <tr class="bg-light">
+                            <td colspan="7" class="text-end fw-bold">TOPLAM</td>
+                            <td><input type="number" class="form-control text-end" id="totalCO2" readonly></td>
+                            <td><input type="number" class="form-control text-end" id="totalCH4" readonly></td>
+                            <td><input type="number" class="form-control text-end" id="totalN2O" readonly></td>
+                            <td><input type="number" class="form-control text-end" id="totalEmissionKg" readonly></td>
+                            <td><input type="number" class="form-control text-end" id="totalEmissionTon" readonly></td>
+                        </tr>
+                        <tr class="bg-light">
+                            <td colspan="7" class="text-end fw-bold">TOPLAM (ton)</td>
+                            <td><input type="number" class="form-control text-end" id="totalCO2Ton" readonly></td>
+                            <td><input type="number" class="form-control text-end" id="totalCH4Ton" readonly></td>
+                            <td><input type="number" class="form-control text-end" id="totalN2OTon" readonly></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <button type="button" class="btn btn-primary" onclick="calculateEmissions()">
+                    <i class="fas fa-calculator me-2"></i>Hesapla
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                    <i class="fas fa-undo me-2"></i>Sıfırla
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function calculateEmissions() {
+            let totalCO2 = 0;
+            let totalCH4 = 0;
+            let totalN2O = 0;
+            let totalEmissionKg = 0;
+
+            // Get all rows
+            const rows = document.querySelectorAll('tbody tr:not(.bg-light)');
+            
+            rows.forEach(row => {
+                const distance = parseFloat(row.querySelector('.distance').value) || 0;
+                const efCO2 = parseFloat(row.querySelector('.ef-co2').value) || 0;
+                const efCH4 = parseFloat(row.querySelector('.ef-ch4').value) || 0;
+                const efN2O = parseFloat(row.querySelector('.ef-n2o').value) || 0;
+
+                // Calculate emissions
+                const emissionCO2 = distance * efCO2;
+                const emissionCH4 = distance * efCH4;
+                const emissionN2O = distance * efN2O;
+                const totalEmission = emissionCO2 + emissionCH4 + emissionN2O;
+
+                // Update row values
+                row.querySelector('.emission-co2').value = emissionCO2.toFixed(3);
+                row.querySelector('.emission-ch4').value = emissionCH4.toFixed(3);
+                row.querySelector('.emission-n2o').value = emissionN2O.toFixed(3);
+                row.querySelector('.total-emission-kg').value = totalEmission.toFixed(3);
+                row.querySelector('.total-emission-ton').value = (totalEmission / 1000).toFixed(3);
+
+                // Add to totals
+                totalCO2 += emissionCO2;
+                totalCH4 += emissionCH4;
+                totalN2O += emissionN2O;
+                totalEmissionKg += totalEmission;
+            });
+
+            // Update totals row
+            document.getElementById('totalCO2').value = totalCO2.toFixed(3);
+            document.getElementById('totalCH4').value = totalCH4.toFixed(3);
+            document.getElementById('totalN2O').value = totalN2O.toFixed(3);
+            document.getElementById('totalEmissionKg').value = totalEmissionKg.toFixed(3);
+            document.getElementById('totalEmissionTon').value = (totalEmissionKg / 1000).toFixed(3);
+
+            // Update ton totals
+            document.getElementById('totalCO2Ton').value = (totalCO2 / 1000).toFixed(3);
+            document.getElementById('totalCH4Ton').value = (totalCH4 / 1000).toFixed(3);
+            document.getElementById('totalN2OTon').value = (totalN2O / 1000).toFixed(3);
+        }
+
+        function resetForm() {
+            document.getElementById('companyVehiclesForm').reset();
+            const readonlyFields = document.querySelectorAll('input[readonly]');
+            readonlyFields.forEach(field => {
+                field.value = '';
+            });
+        }
+
+        // Add input event listeners for automatic calculation
+        const inputFields = document.querySelectorAll('.distance, .ef-co2, .ef-ch4, .ef-n2o');
+        inputFields.forEach(field => {
+            field.addEventListener('input', calculateEmissions);
+        });
+    </script>
+} 

@@ -1,0 +1,86 @@
+@model IEnumerable<CarbonEmissionCalculator.MVCWebUI.Models.Company>
+@{
+    ViewData["Title"] = "Firma Seçimi";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row mb-4">
+        <div class="col">
+            <h4 class="fw-bold">Firma Seçimi</h4>
+            <p class="mb-4">Lütfen hesaplama yapmak istediğiniz firmayı seçin veya yeni firma ekleyin.</p>
+        </div>
+        <div class="col-auto">
+            <a href="@Url.Action("Create")" class="btn btn-primary">
+                <i class="bx bx-plus me-1"></i>
+                Yeni Firma Ekle
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        @if (Model.Any())
+        {
+            @foreach (var company in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="bx bx-building-house text-primary" style="font-size: 2.5rem;"></i>
+                                <div class="ms-3">
+                                    <h5 class="card-title mb-0">@company.Name</h5>
+                                    <small class="text-muted">@company.TaxNumber</small>
+                                </div>
+                            </div>
+                            
+                            @if (!string.IsNullOrEmpty(company.Address))
+                            {
+                                <p class="card-text mb-2">
+                                    <i class="bx bx-map-pin me-1"></i>
+                                    @company.Address
+                                </p>
+                            }
+                            
+                            @if (!string.IsNullOrEmpty(company.PhoneNumber))
+                            {
+                                <p class="card-text mb-2">
+                                    <i class="bx bx-phone me-1"></i>
+                                    @company.PhoneNumber
+                                </p>
+                            }
+                            
+                            @if (!string.IsNullOrEmpty(company.Email))
+                            {
+                                <p class="card-text mb-3">
+                                    <i class="bx bx-envelope me-1"></i>
+                                    @company.Email
+                                </p>
+                            }
+
+                            <a href="@Url.Action("Select", new { id = company.Id })" class="btn btn-primary w-100">
+                                <i class="bx bx-check-circle me-1"></i>
+                                Bu Firmayı Seç
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <i class="bx bx-buildings text-primary mb-3" style="font-size: 4rem;"></i>
+                        <h5>Henüz Firma Eklenmemiş</h5>
+                        <p class="mb-4">Hesaplama yapmak için önce bir firma eklemelisiniz.</p>
+                        <a href="@Url.Action("Create")" class="btn btn-primary">
+                            <i class="bx bx-plus me-1"></i>
+                            Yeni Firma Ekle
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div> 

@@ -5,7 +5,12 @@
 }
 
 <div class="card">
-    <h5 class="card-header">Sabit Yanma Emisyon Özeti</h5>
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Sabit Yanma Emisyon Özeti</h5>
+        <a href="/Calculation/FixedCombustion" class="btn btn-sm btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Geri
+        </a>
+    </div>
     <div class="card-body">
         <div class="table-responsive text-nowrap">
             <table class="table table-striped">
@@ -59,11 +64,26 @@
     </div>
 </div>
 
-<!-- Grafik için canvas elementi -->
-<div class="card mt-4">
-    <h5 class="card-header">Emisyon Dağılımı</h5>
-    <div class="card-body">
-        <canvas id="emissionChart"></canvas>
+<!-- Grafikler -->
+<div class="row mt-4">
+    <!-- Yakıt Tüketimi Dağılımı -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <h5 class="card-header">Yakıt Tüketimi Dağılımı</h5>
+            <div class="card-body">
+                <canvas id="consumptionChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emisyon Dağılımı -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <h5 class="card-header">Emisyon Dağılımı</h5>
+            <div class="card-body">
+                <canvas id="emissionChart"></canvas>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -72,45 +92,80 @@
     <script>
         // Grafik verilerini hazırla
         const fuelTypes = @Json.Serialize(Model.Select(x => x.FuelType).ToList());
+        const consumptionData = @Json.Serialize(Model.Select(x => x.ConsumptionAmount).ToList());
         const co2Data = @Json.Serialize(Model.Select(x => x.CO2Emission).ToList());
         const ch4Data = @Json.Serialize(Model.Select(x => x.CH4Emission).ToList());
         const n2oData = @Json.Serialize(Model.Select(x => x.N2OEmission).ToList());
 
-        // Grafik oluştur
-        const ctx = document.getElementById('emissionChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
+        // Yakıt Tüketimi Grafiği
+        new Chart(document.getElementById('consumptionChart'), {
+            type: 'pie',
             data: {
                 labels: fuelTypes,
-                datasets: [
-                    {
-                        label: 'CO2 Emisyonu (kg)',
-                        data: co2Data,
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                        borderColor: 'rgb(255, 99, 132)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'CH4 Emisyonu (kg)',
-                        data: ch4Data,
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'N2O Emisyonu (kg)',
-                        data: n2oData,
-                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                        borderColor: 'rgb(75, 192, 192)',
-                        borderWidth: 1
-                    }
-                ]
+                datasets: [{
+                    data: consumptionData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 206, 86)',
+                        'rgb(75, 192, 192)'
+                    ],
+                    borderWidth: 1
+                }]
             },
             options: {
                 responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Yakıt Tüketimi Dağılımı (m³)'
+                    }
+                }
+            }
+        });
+
+        // Emisyon Dağılımı Grafiği
+        new Chart(document.getElementById('emissionChart'), {
+            type: 'pie',
+            data: {
+                labels: ['CO2', 'CH4', 'N2O'],
+                datasets: [{
+                    data: [
+                        co2Data.reduce((a, b) => a + b, 0),
+                        ch4Data.reduce((a, b) => a + b, 0),
+                        n2oData.reduce((a, b) => a + b, 0)
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(75, 192, 192, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(75, 192, 192)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Emisyon Dağılımı (kg)'
                     }
                 }
             }

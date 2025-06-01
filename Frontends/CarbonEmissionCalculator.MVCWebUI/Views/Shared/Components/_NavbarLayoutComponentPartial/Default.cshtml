@@ -1,5 +1,4 @@
-﻿
-<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+﻿<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
      id="layout-navbar">
     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
         <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
@@ -8,17 +7,37 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        <!-- Search -->
-        <div class="navbar-nav align-items-center">
-            <div class="nav-item d-flex align-items-center">
-                <i class="bx bx-search fs-4 lh-0"></i>
-                <input type="text"
-                       class="form-control border-0 shadow-none"
-                       placeholder="Search..."
-                       aria-label="Search..." />
+        <div class="d-flex align-items-center w-100">
+            <!-- Sol taraf - Tarih ve Saat -->
+            <div class="d-none d-md-flex align-items-center me-auto">
+                <i class="bx bx-calendar me-2 text-primary" style="font-size: 1.2rem;"></i>
+                <span id="currentDate" class="me-3"></span>
+                <i class="bx bx-time-five me-2 text-primary" style="font-size: 1.2rem;"></i>
+                <span id="currentTime"></span>
+            </div>
+
+            <!-- Sağ taraf - Şirket Bilgisi -->
+            <div class="d-flex align-items-center ms-auto">
+                <i class="bx bx-building-house me-2 text-primary" style="font-size: 1.2rem;"></i>
+                <span class="fw-semibold">Firma Adı</span>
             </div>
         </div>
-
-
     </div>
 </nav>
+
+<script>
+    function updateDateTime() {
+        const now = new Date();
+        
+        // Tarih formatı: 1 Ocak 2024
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('tr-TR', options);
+        
+        // Saat formatı: 14:30:45
+        document.getElementById('currentTime').textContent = now.toLocaleTimeString('tr-TR');
+    }
+
+    // Sayfa yüklendiğinde ve her saniye güncelle
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+</script>

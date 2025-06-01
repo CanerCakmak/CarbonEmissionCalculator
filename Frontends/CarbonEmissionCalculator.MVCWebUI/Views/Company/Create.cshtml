@@ -1,0 +1,89 @@
+@model CarbonEmissionCalculator.MVCWebUI.Models.Company
+@{
+    ViewData["Title"] = "Yeni Firma Ekle";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row mb-4">
+        <div class="col">
+            <h4 class="fw-bold">Yeni Firma Ekle</h4>
+            <p class="mb-4">Hesaplama yapmak istediğiniz firmanın bilgilerini girin.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Firma Adı</label>
+                            <input asp-for="Name" class="form-control" placeholder="Firma adını girin" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TaxNumber" class="form-label">Vergi Numarası</label>
+                            <input asp-for="TaxNumber" class="form-control" placeholder="Vergi numarasını girin" />
+                            <span asp-validation-for="TaxNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label">Adres</label>
+                            <textarea asp-for="Address" class="form-control" rows="3" placeholder="Firma adresini girin"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PhoneNumber" class="form-label">Telefon</label>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="Telefon numarasını girin" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email" class="form-label">E-posta</label>
+                                <input asp-for="Email" class="form-control" placeholder="E-posta adresini girin" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="bx bx-save me-1"></i>
+                                Firmayı Kaydet
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                <i class="bx bx-arrow-back me-1"></i>
+                                Geri Dön
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title text-white mb-3">
+                        <i class="bx bx-info-circle me-2"></i>
+                        Bilgilendirme
+                    </h5>
+                    <p class="card-text">
+                        Firma bilgilerini ekledikten sonra, seçili firma için karbon emisyon hesaplamalarını yapabilirsiniz.
+                    </p>
+                    <p class="card-text mb-0">
+                        Tüm hesaplamalar bu firma için kaydedilecek ve raporlanacaktır.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

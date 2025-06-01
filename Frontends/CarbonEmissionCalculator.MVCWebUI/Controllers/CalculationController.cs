@@ -71,15 +71,13 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
         // On-Road Araçlar Ana Sayfası
         public IActionResult MobileOnRoad()
         {
-            // Varsayılan olarak dizel sayfasına yönlendir
-            return RedirectToAction("MobileOnRoadDiesel");
+            return View();
         }
 
         // Off-Road Araçlar Ana Sayfası
         public IActionResult MobileOffRoad()
         {
-            // Varsayılan olarak dizel sayfasına yönlendir
-            return RedirectToAction("MobileOffRoadDiesel");
+            return View();
         }
 
         // On-Road Araçlar için Action Methodları
@@ -154,7 +152,30 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Electricity()
+        {
+            var model = new ElectricityViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Electricity(ElectricityViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Calculate total emission
+                model.TotalEmission = model.ConsumptionAmount * model.EmissionFactor;
+            }
+            return View(model);
+        }
+
         public IActionResult CarbonContainingMaterial()
+        {
+            return View();
+        }
+
+        public IActionResult CompanyVehicles()
         {
             return View();
         }

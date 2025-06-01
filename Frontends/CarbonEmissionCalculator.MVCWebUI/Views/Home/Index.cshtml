@@ -1,135 +1,129 @@
 ﻿@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<style>
-    .card-icon {
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
+<div class="container-xxl flex-grow-1 container-p-y">
+    <!-- Kategori 1 Başlığı -->
+    <div class="row mb-4">
+        <div class="col">
+            <h3 class="fw-bold py-3 mb-4">
+                <i class="bx bx-calculator me-2"></i>
+                Kategori 1 Hesaplamaları
+            </h3>
+        </div>
+    </div>
 
-    .card {
-        transition: transform 0.2s;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-    }
-
-    .fa-car {
-        color: #696cff;
-    }
-
-    .fa-snowflake {
-        color: #03c3ec;
-    }
-
-    .fa-water {
-        color: #007bff;
-    }
-
-    .fa-box {
-        color: #ffab00;
-    }
-</style>
-
-<div class="row">
-    <div class="row align-items-stretch">
-        <!-- Sabit Yanma Kartı -->
-        <div class="col-lg-6 col-md-12 col-6 mb-4">
-            <a href="/Calculation/FixedCombustion" class="text-decoration-none">
-                <div class="card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="d-flex align-items-center w-100">
-                            <div class="card-icon me-4">
-                                <img src="~/images/fire.png" alt="fire icon" style="width: 32px; height: 32px;" />
-                            </div>
-                            <div class="d-flex flex-column justify-content-center w-100">
-                                <h3 class="card-title mb-0 text-center">Yakıtlar - Sabit Yanma</h3>
-                            </div>
-                        </div>
+    <!-- Kategori 1 Hesaplama Butonları -->
+    <div class="row">
+        <!-- Sabit Yanma -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bx bxs-flame text-primary" style="font-size: 3rem;"></i>
                     </div>
+                    <h5 class="card-title mb-4">Sabit Yanma</h5>
+                    <a href="/Calculation/FixedCombustion" class="btn btn-primary">Hesapla</a>
                 </div>
-            </a>
+            </div>
         </div>
 
-        <!-- Mobil Yanma Kartı -->
-        <div class="col-lg-6 col-md-12 col-6 mb-4">
-            <a href="/Calculation/MobileCombustion" class="text-decoration-none">
-                <div class="card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="d-flex align-items-center w-100">
-                            <div class="card-icon me-4">
-                                <i class="fas fa-car fa-2x"></i>
-                            </div>
-                            <div class="d-flex flex-column justify-content-center w-100">
-                                <h3 class="card-title mb-0 text-center">Şirket Araçları - Mobil Yanma</h3>
-                            </div>
-                        </div>
+        <!-- Mobil Yanma -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bx bx-car text-primary" style="font-size: 3rem;"></i>
                     </div>
+                    <h5 class="card-title mb-4">Mobil Yanma</h5>
+                    <a href="/Calculation/MobileCombustion" class="btn btn-primary">Hesapla</a>
                 </div>
-            </a>
+            </div>
         </div>
 
-        <!-- Soğutucu Gazlar Kartı -->
-        <div class="col-lg-6 col-md-12 col-6 mb-4">
-            <a href="/Calculation/RefrigerantGases" class="text-decoration-none">
-                <div class="card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="d-flex align-items-center w-100">
-                            <div class="card-icon me-4">
-                                <i class="fas fa-snowflake fa-2x"></i>
-                            </div>
-                            <div class="d-flex flex-column justify-content-center w-100">
-                                <h3 class="card-title mb-0 text-center">Soğutucu Gazlar</h3>
-                            </div>
-                        </div>
+        <!-- Şirket Araçları -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bx bx-car text-primary" style="font-size: 3rem;"></i>
                     </div>
+                    <h5 class="card-title mb-4">Şirket Araçları</h5>
+                    <a href="/Calculation/CompanyVehicles" class="btn btn-primary">Hesapla</a>
                 </div>
-            </a>
+            </div>
         </div>
 
-        <!-- Atık Su Arıtma Tesisi Kartı -->
-        <div class="col-lg-6 col-md-12 col-6 mb-4">
-            <a href="/Calculation/WastewaterTreatment" class="text-decoration-none">
-                <div class="card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="d-flex align-items-center w-100">
-                            <div class="card-icon me-4">
-                                <i class="fas fa-water fa-2x"></i>
-                            </div>
-                            <div class="d-flex flex-column justify-content-center w-100">
-                                <h3 class="card-title mb-0 text-center">Atık Su Arıtma Tesisi</h3>
-                            </div>
-                        </div>
+        <!-- Soğutucu Gazlar -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bx bx-wind text-primary" style="font-size: 3rem;"></i>
                     </div>
+                    <h5 class="card-title mb-4">Soğutucu Gazlar</h5>
+                    <a href="/Calculation/RefrigerantGases" class="btn btn-primary">Hesapla</a>
                 </div>
-            </a>
+            </div>
         </div>
 
-        <!-- Karbon İçerikli Hammadde Prosesi Kartı -->
-        <div class="col-lg-6 col-md-12 col-6 mb-4">
-            <a href="/Calculation/CarbonContainingMaterial" class="text-decoration-none">
-                <div class="card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="d-flex align-items-center w-100">
-                            <div class="card-icon me-4">
-                                <i class="fas fa-box fa-2x"></i>
-                            </div>
-                            <div class="d-flex flex-column justify-content-center w-100">
-                                <h3 class="card-title mb-0 text-center">Karbon İçerikli Hammadde Prosesi</h3>
-                            </div>
-                        </div>
+        <!-- Atık Su Arıtma Tesisi -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bx bx-water text-primary" style="font-size: 3rem;"></i>
                     </div>
+                    <h5 class="card-title mb-4">Atık Su Arıtma Tesisi</h5>
+                    <a href="/Calculation/WastewaterTreatment" class="btn btn-primary">Hesapla</a>
                 </div>
-            </a>
+            </div>
+        </div>
+
+        <!-- Karbon İçerikli Hammadde Prosesi -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bx bx-box text-primary" style="font-size: 3rem;"></i>
+                    </div>
+                    <h5 class="card-title mb-4">Karbon İçerikli Hammadde Prosesi</h5>
+                    <a href="/Calculation/CarbonContainingMaterial" class="btn btn-primary">Hesapla</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ayraç çizgisi -->
+    <div class="row">
+        <div class="col">
+            <hr class="my-4" style="opacity: 0.25; margin: 2rem auto; border-width: 1px; border-color: #696cff;">
+        </div>
+    </div>
+
+    <!-- Kategori 2 Başlığı -->
+    <div class="row mb-4">
+        <div class="col">
+            <h3 class="fw-bold py-3 mb-4">
+                <i class="bx bx-calculator me-2"></i>
+                Kategori 2 Hesaplamaları
+            </h3>
+        </div>
+    </div>
+
+    <!-- Kategori 2 Hesaplama Butonları -->
+    <div class="row">
+        <!-- Elektrik -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-bolt text-primary" style="font-size: 3rem;"></i>
+                    </div>
+                    <h5 class="card-title mb-4">Elektrik</h5>
+                    <a href="/Calculation/Electricity" class="btn btn-primary">Hesapla</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

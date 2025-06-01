@@ -28,6 +28,7 @@
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="~/sneat-1.0.0/assets/vendor/fonts/boxicons.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="~/sneat-1.0.0/assets/vendor/css/core.css" class="template-customizer-core-css" />
@@ -77,12 +78,7 @@
                     
                     <!-- Calculation Navigation -->
                     <div id="calculationNav" class="container-xxl d-none">
-                        <div class="row justify-content-between bg-light p-3 rounded mb-4">
-                            <div class="col-auto">
-                                <button id="prevCalcBtn" class="btn btn-outline-primary">
-                                    <i class="fa-solid fa-arrow-left me-2"></i>Önceki Hesaplama
-                                </button>
-                            </div>
+                        <div class="row justify-content-center bg-light p-3 rounded mb-4">
                             <div class="col-auto">
                                 <div class="dropdown">
                                     <button class="btn btn-primary dropdown-toggle" type="button" id="calculationSteps" data-bs-toggle="dropdown" aria-expanded="false">
@@ -93,18 +89,9 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-auto">
-                                <button id="nextCalcBtn" class="btn btn-primary">
-                                    Sonraki Hesaplama<i class="fa-solid fa-arrow-right ms-2"></i>
-                                </button>
-                            </div>
                         </div>
                     </div>
                     <!-- / Calculation Navigation -->
-                    
-                    <!-- Footer -->
-                    @await Component.InvokeAsync("_FooterLayoutComponentPartial")
-                    <!-- / Footer -->
 
                     <div class="content-backdrop fade"></div>
                 </div>
@@ -133,7 +120,6 @@
     <script src="~/sneat-1.0.0/assets/js/main.js"></script>
 
     <!-- Page JS -->
-    <script src="~/sneat-1.0.0/assets/js/dashboards-analytics.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
     <!-- Place this tag in your head or just before your close body tag. -->
@@ -194,32 +180,19 @@
             }
         ];
 
-        // Tüm hesaplama sayfalarını düz bir diziye dönüştür
-        const calculationPages = [];
-        calculationCategories.forEach(category => {
-            category.pages.forEach(page => {
-                calculationPages.push({
-                    path: page.path,
-                    title: page.title,
-                    categoryTitle: category.title
-                });
-            });
-        });
-
         // DOM yüklendikten sonra
         document.addEventListener('DOMContentLoaded', function() {
             // Mevcut sayfa yolunu al
             const currentPath = window.location.pathname.toLowerCase();
             
             // Bu bir hesaplama sayfası mı kontrol et
-            const isCalculationPage = calculationPages.some(page => page.path.toLowerCase() === currentPath);
+            const isCalculationPage = calculationCategories.some(category => 
+                category.pages.some(page => page.path.toLowerCase() === currentPath)
+            );
             
             if (isCalculationPage) {
                 // Hesaplama navigasyonunu göster
                 document.getElementById('calculationNav').classList.remove('d-none');
-                
-                // Mevcut sayfanın indeksini bul
-                const currentIndex = calculationPages.findIndex(page => page.path.toLowerCase() === currentPath);
                 
                 // Dropdown listesini doldur
                 const dropdownList = document.getElementById('calculationStepsList');
@@ -239,12 +212,13 @@
                         const listItem = document.createElement('li');
                         const link = document.createElement('a');
                         const isCurrentPage = page.path.toLowerCase() === currentPath;
-                        link.className = 'dropdown-item' + (isCurrentPage ? ' active bg-primary text-white' : '');
+                        link.className = 'dropdown-item' + (isCurrentPage ? ' active fw-bold bg-light-primary' : '');
                         link.href = page.path;
-                        // Sayfa başlığını kategori olmadan göster
                         link.textContent = page.title;
-                        // Sol tarafta girinti ekle
                         link.style.paddingLeft = '1.5rem';
+                        if (isCurrentPage) {
+                            link.style.color = '#696cff';
+                        }
                         listItem.appendChild(link);
                         dropdownList.appendChild(listItem);
                     });
@@ -262,30 +236,6 @@
                 // Dropdown menü stilini düzenle
                 const dropdownMenu = document.querySelector('.dropdown-menu');
                 dropdownMenu.style.minWidth = '240px';
-                
-                // Önceki/Sonraki butonlarını yapılandır
-                const prevBtn = document.getElementById('prevCalcBtn');
-                const nextBtn = document.getElementById('nextCalcBtn');
-                
-                // Önceki sayfa varsa
-                if (currentIndex > 0) {
-                    prevBtn.addEventListener('click', function() {
-                        window.location.href = calculationPages[currentIndex - 1].path;
-                    });
-                } else {
-                    prevBtn.disabled = true;
-                    prevBtn.classList.add('disabled');
-                }
-                
-                // Sonraki sayfa varsa
-                if (currentIndex < calculationPages.length - 1) {
-                    nextBtn.addEventListener('click', function() {
-                        window.location.href = calculationPages[currentIndex + 1].path;
-                    });
-                } else {
-                    nextBtn.disabled = true;
-                    nextBtn.classList.add('disabled');
-                }
             }
         });
     </script>
