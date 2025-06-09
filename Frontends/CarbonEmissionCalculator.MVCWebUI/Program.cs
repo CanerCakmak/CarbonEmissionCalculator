@@ -1,7 +1,25 @@
+using CarbonEmissionCalculator.Application;
+using CarbonEmissionCalculator.Persistence;
+using CarbonEmissionCalculator.CustomMapper;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+#region EnvironmentBasedJson
+IWebHostEnvironment env = builder.Environment;
+builder.Configuration
+    .SetBasePath(env.ContentRootPath)
+    .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+#endregion
+
+#region AllLayers
+builder.Services.AddApplication();
+builder.Services.AddCustomMapper();
+builder.Services.AddPersistence(builder.Configuration);
+#endregion
 
 var app = builder.Build();
 
