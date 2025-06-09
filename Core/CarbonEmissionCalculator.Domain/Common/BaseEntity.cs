@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CarbonEmissionCalculator.Domain.Common
+﻿namespace CarbonEmissionCalculator.Domain.Common
 {
     public class BaseEntity
     {
