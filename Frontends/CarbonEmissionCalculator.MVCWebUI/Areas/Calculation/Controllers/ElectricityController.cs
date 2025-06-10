@@ -1,5 +1,6 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
+using CarbonEmissionCalculator.MVCWebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
@@ -25,6 +26,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         }
         public IActionResult Create()
         {
+            
             return View();
         }
 
