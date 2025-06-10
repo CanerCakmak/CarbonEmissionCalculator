@@ -24,4 +24,9 @@
     <ProjectReference Include="..\..\Infrastructure\CarbonEmissionCalculator.Persistence\CarbonEmissionCalculator.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Calculation\Data\" />
+    <Folder Include="Areas\Calculation\Models\" />
+  </ItemGroup>
+
 </Project>

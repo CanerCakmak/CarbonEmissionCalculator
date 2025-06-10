@@ -1,0 +1,235 @@
+﻿@{
+    ViewData["Title"] = "On-Road Araçlar - Dizel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mb-4">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">On-Road Araçlar - Dizel</h5>
+        <a href="/Calculation/MobileOnRoad" class="btn btn-sm btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Geri
+        </a>
+    </div>
+    <div class="card-body">
+        <form id="mobileOnRoadDieselForm" method="post">
+            <div class="row">
+                <!-- Faaliyet Verisi -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Dizel Tüketim Miktarı Faaliyet Verisi (L)</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="consumptionAmount" name="consumptionAmount" required />
+                        <span class="input-group-text">L</span>
+                    </div>
+                </div>
+
+                <!-- Yoğunluk -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Yoğunluk</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="density" name="density" value="0.85" />
+                        <span class="input-group-text">kg/L</span>
+                    </div>
+                </div>
+
+                <!-- Tüketim Miktarı (kg) -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Tüketim Miktarı</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="consumptionKg" name="consumptionKg" readonly />
+                        <span class="input-group-text">kg</span>
+                    </div>
+                </div>
+
+                <!-- Tüketim Miktarı (Gg) -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Tüketim Miktarı</label>
+                    <div class="input-group">
+                        <input type="number" step="0.000001" class="form-control" id="consumptionGg" name="consumptionGg" readonly />
+                        <span class="input-group-text">Gg</span>
+                    </div>
+                </div>
+
+                <!-- Net Kalorifik Değer -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Net Kalorifik Değer</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="netCaloricValue" name="netCaloricValue" value="43" />
+                        <span class="input-group-text">TJ/Gg</span>
+                    </div>
+                </div>
+
+                <!-- Tüketim Miktarı (TJ) -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Tüketim Miktarı</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="consumptionTJ" name="consumptionTJ" readonly />
+                        <span class="input-group-text">TJ</span>
+                    </div>
+                </div>
+
+                <!-- Karbon Oksidasyon Faktörü -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Karbon Oksidasyon Faktörü</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="carbonOxidationFactor" name="carbonOxidationFactor" value="1.00" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emisyon Faktörleri -->
+            <div class="row mt-4">
+                <h6 class="mb-3">Emisyon Faktörleri</h6>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">CO2</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="co2Factor" name="co2Factor" value="74100" />
+                        <span class="input-group-text">kg/TJ</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">CH4</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="ch4Factor" name="ch4Factor" value="3.9" />
+                        <span class="input-group-text">kg/TJ</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">N2O</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="n2oFactor" name="n2oFactor" value="3.9" />
+                        <span class="input-group-text">kg/TJ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Küresel Isınma Potansiyeli -->
+            <div class="row mt-4">
+                <h6 class="mb-3">Küresel Isınma Potansiyeli</h6>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">CO2 Küresel Isınma Potansiyeli</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="co2GWP" name="co2GWP" value="1" />
+                        <span class="input-group-text">CO2e</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">CH4 Küresel Isınma Potansiyeli</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="ch4GWP" name="ch4GWP" value="28" />
+                        <span class="input-group-text">CO2e</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">N2O Küresel Isınma Potansiyeli</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="n2oGWP" name="n2oGWP" value="265" />
+                        <span class="input-group-text">CO2e</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emisyon -->
+            <div class="row mt-4">
+                <h6 class="mb-3">Emisyon</h6>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">CO2</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="totalCO2" name="totalCO2" readonly />
+                        <span class="input-group-text">kg</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">CH4</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="totalCH4" name="totalCH4" readonly />
+                        <span class="input-group-text">kg</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">N2O</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="totalN2O" name="totalN2O" readonly />
+                        <span class="input-group-text">kg</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toplam Emisyon -->
+            <div class="row mt-4">
+                <h6 class="mb-3">Toplam Emisyon</h6>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">CO2e</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="totalCO2e" name="totalCO2e" readonly />
+                        <span class="input-group-text">kg</span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">CO2e</label>
+                    <div class="input-group">
+                        <input type="number" step="0.000001" class="form-control" id="totalCO2eTon" name="totalCO2eTon" readonly />
+                        <span class="input-group-text">ton</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <button type="button" id="calculateButton" class="btn btn-primary">Hesapla</button>
+                    <button type="reset" class="btn btn-secondary">Temizle</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/sneat-1.0.0/assets/vendor/libs/jquery/jquery.js"></script>
+    <script>
+        document.getElementById('calculateButton').addEventListener('click', function() {
+            // Giriş değerlerini al
+            const consumptionAmount = parseFloat(document.getElementById('consumptionAmount').value) || 0;
+            const density = parseFloat(document.getElementById('density').value) || 0;
+            const netCaloricValue = parseFloat(document.getElementById('netCaloricValue').value) || 0;
+            const carbonOxidationFactor = parseFloat(document.getElementById('carbonOxidationFactor').value) || 0;
+            const co2Factor = parseFloat(document.getElementById('co2Factor').value) || 0;
+            const ch4Factor = parseFloat(document.getElementById('ch4Factor').value) || 0;
+            const n2oFactor = parseFloat(document.getElementById('n2oFactor').value) || 0;
+            const co2GWP = parseFloat(document.getElementById('co2GWP').value) || 1;
+            const ch4GWP = parseFloat(document.getElementById('ch4GWP').value) || 28;
+            const n2oGWP = parseFloat(document.getElementById('n2oGWP').value) || 265;
+
+            // Tüketim miktarı hesaplamaları
+            const consumptionKg = consumptionAmount * density;
+            const consumptionGg = consumptionKg * Math.pow(10, -6);
+            const consumptionTJ = consumptionGg * netCaloricValue;
+
+            // Emisyon hesaplamaları - her gaz için toplam emisyon değerleri
+            // CO2 için toplam emisyon = CO2 GWP * CO2 emisyon faktörü * tüketim miktarı * karbon oksidasyon faktörü
+            const totalCO2 = co2GWP * co2Factor * consumptionTJ * carbonOxidationFactor;
+
+            // CH4 için toplam emisyon = CH4 GWP * CH4 emisyon faktörü * tüketim miktarı * karbon oksidasyon faktörü
+            const totalCH4 = ch4GWP * ch4Factor * consumptionTJ * carbonOxidationFactor;
+
+            // N2O için toplam emisyon = N2O GWP * N2O emisyon faktörü * tüketim miktarı * karbon oksidasyon faktörü
+            const totalN2O = n2oGWP * n2oFactor * consumptionTJ * carbonOxidationFactor;
+
+            // Toplam CO2e - tüm gazların emisyon toplamı
+            const totalCO2e = totalCO2 + totalCH4 + totalN2O;
+
+            // Sonuçları güncelle
+            document.getElementById('consumptionKg').value = consumptionKg.toFixed(2);
+            document.getElementById('consumptionGg').value = consumptionGg.toFixed(6);
+            document.getElementById('consumptionTJ').value = consumptionTJ.toFixed(6);
+
+            // Her gazın toplam emisyon değerlerini göster
+            document.getElementById('totalCO2').value = totalCO2.toFixed(6);
+            document.getElementById('totalCH4').value = totalCH4.toFixed(6);
+            document.getElementById('totalN2O').value = totalN2O.toFixed(6);
+
+            // Toplam CO2e değerlerini göster (kg ve ton cinsinden)
+            document.getElementById('totalCO2e').value = totalCO2e.toFixed(6);
+            document.getElementById('totalCO2eTon').value = (totalCO2e * 0.001).toFixed(6);
+        });
+    </script>
+}
