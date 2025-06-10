@@ -12,26 +12,6 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
             return View();
         }
 
-        public IActionResult FixedCombustionNaturalGas()
-        {
-            return View();
-        }
-
-        public IActionResult FixedCombustionDiesel()
-        {
-            return View();
-        }
-
-        public IActionResult FixedCombustionGasoline()
-        {
-            return View();
-        }
-
-        public IActionResult FixedCombustionLPG()
-        {
-            return View();
-        }
-
         public IActionResult FixedCombustionSummary()
         {
             // Örnek veri - Bu kısım daha sonra veritabanından gelecek şekilde güncellenebilir
@@ -80,33 +60,6 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
             return View();
         }
 
-        // On-Road Araçlar için Action Methodları
-        public IActionResult MobileOnRoadDiesel()
-        {
-            return View();
-        }
-
-        public IActionResult MobileOnRoadGasoline()
-        {
-            return View();
-        }
-
-        public IActionResult MobileOnRoadLPG()
-        {
-            return View();
-        }
-
-        // Off-Road Araçlar için Action Methodları
-        public IActionResult MobileOffRoadDiesel()
-        {
-            return View();
-        }
-
-        public IActionResult MobileOffRoadGasoline()
-        {
-            return View();
-        }
-
         public IActionResult MobileCombustionSummary()
         {
             // Örnek veri - Bu kısım daha sonra veritabanından gelecek şekilde güncellenebilir
@@ -137,20 +90,6 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
             return View(summaryList);
         }
 
-        public IActionResult Test(int id)
-        {
-            return View();
-        }
-
-        public IActionResult RefrigerantGases()
-        {
-            return View();
-        }
-
-        public IActionResult WastewaterTreatment()
-        {
-            return View();
-        }
 
         [HttpGet]
         public IActionResult Electricity()
@@ -168,16 +107,6 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
                 model.TotalEmission = model.ConsumptionAmount * model.EmissionFactor;
             }
             return View(model);
-        }
-
-        public IActionResult CarbonContainingMaterial()
-        {
-            return View();
-        }
-
-        public IActionResult CompanyVehicles()
-        {
-            return View();
         }
     }
 } 
