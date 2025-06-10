@@ -2,7 +2,7 @@
 
 namespace CarbonEmissionCalculator.Domain.Entities
 {
-    public class FixedCombustionNaturalGasCalculation : BaseEntity
+    public class FixedCombustionGasolineCalculation : BaseEntity
     {
         public decimal ConsumptionAmount { get; set; }
         public decimal Density { get; set; }
@@ -22,6 +22,5 @@ namespace CarbonEmissionCalculator.Domain.Entities
         public decimal TotalN2O { get; set; }
         public decimal TotalCO2e { get; set; }
         public decimal TotalCO2eTon { get; set; }
-        
     }
 }
