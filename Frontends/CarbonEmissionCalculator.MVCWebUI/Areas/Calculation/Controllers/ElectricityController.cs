@@ -1,5 +1,6 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
+using CarbonEmissionCalculator.Domain.Entities;
 using CarbonEmissionCalculator.MVCWebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,33 +12,39 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomMapper _customMapper;
 
-        public ElectricityController(IUnitOfWork unitOfWork, ICustomMapper customMapper)
+        public async Task<IActionResult> IndexAsync()
         {
-            _unitOfWork = unitOfWork;
-            _customMapper = customMapper;
+            IList<FixedCombustionNaturalGasCalculation> values = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAllAsync();
+
+            return View(values);
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Detail(int id)
         {
-            return View();
+            FixedCombustionNaturalGasCalculation value = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAsync(x => x.Id == id);
+
+            return View(value);
         }
-        public IActionResult Detail(int id)
-        {
-            return View();
-        }
+        [HttpGet]
         public IActionResult Create()
         {
-            
             return View();
         }
-
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        public IActionResult Delete(int id)
+        [HttpPost]
+        public async Task<IActionResult> Create(FixedCombustionNaturalGasCalculation calc)
         {
-            return View();
+            await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().AddAsync(calc);
+            await _unitOfWork.SaveAsync();
+
+            return RedirectToAction("IndexAsync");
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().HardDeleteByIdAsync(id);
+            await _unitOfWork.SaveAsync();
+
+            return RedirectToAction("IndexAsync");
         }
     }
 }

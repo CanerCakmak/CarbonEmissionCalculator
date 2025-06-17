@@ -1,6 +1,7 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
 using CarbonEmissionCalculator.Application.Interfaces.Repositories;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
+using CarbonEmissionCalculator.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
@@ -17,27 +18,39 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             _customMapper = customMapper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            IList<CarbonContainingMaterialCalculation> values = await _unitOfWork.GetReadRepository<CarbonContainingMaterialCalculation>().GetAllAsync();
+
+            return View(values);
         }
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            return View();
+            CarbonContainingMaterialCalculation value = await _unitOfWork.GetReadRepository<CarbonContainingMaterialCalculation>().GetAsync(x => x.Id == id);
+
+            return View(value);
         }
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-        
-        public IActionResult Delete(int id)
+        [HttpPost]
+        public async Task<IActionResult> Create(CarbonContainingMaterialCalculation calc)
         {
-            return View();
+            await _unitOfWork.GetWriteRepository<CarbonContainingMaterialCalculation>().AddAsync(calc);
+            await _unitOfWork.SaveAsync();
+
+            return RedirectToAction("IndexAsync");
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _unitOfWork.GetWriteRepository<CarbonContainingMaterialCalculation>().HardDeleteByIdAsync(id);
+            await _unitOfWork.SaveAsync();
+
+            return RedirectToAction("IndexAsync");
         }
     }
 }
