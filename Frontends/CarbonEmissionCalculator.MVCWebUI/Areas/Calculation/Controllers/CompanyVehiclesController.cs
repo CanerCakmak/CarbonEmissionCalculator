@@ -1,5 +1,6 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
+using CarbonEmissionCalculator.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
@@ -15,27 +16,39 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             _unitOfWork = unitOfWork;
             _customMapper = customMapper;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            IList<FixedCombustionNaturalGasCalculation> values = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAllAsync();
+
+            return View(values);
         }
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            return View();
+            FixedCombustionNaturalGasCalculation value = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAsync(x => x.Id == id);
+
+            return View(value);
         }
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        public IActionResult Delete(int id)
+        [HttpPost]
+        public async Task<IActionResult> Create(FixedCombustionNaturalGasCalculation calc)
         {
-            return View();
+            await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().AddAsync(calc);
+            await _unitOfWork.SaveAsync();
+
+            return RedirectToAction("IndexAsync");
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().HardDeleteByIdAsync(id);
+            await _unitOfWork.SaveAsync();
+
+            return RedirectToAction("IndexAsync");
         }
     }
 }
