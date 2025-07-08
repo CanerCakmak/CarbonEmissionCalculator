@@ -1,4 +1,5 @@
 ﻿using CarbonEmissionCalculator.Domain.Common;
+using CarbonEmissionCalculator.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Reflection;
@@ -9,6 +10,19 @@ namespace CarbonEmissionCalculator.Persistence.Context
     {
         public AppDbContext(DbContextOptions options) : base(options) { }
 
+        #region AllEntities
+        public DbSet<FixedCombustionLPGCalculation> FixedCombustionLPGCalculations { get; set; }
+        public DbSet<FixedCombustionDieselCalculation> FixedCombustionDieselCalculations { get; set; }
+        public DbSet<FixedCombustionGasolineCalculation> FixedCombustionGasolineCalculations { get; set; }
+        public DbSet<FixedCombustionNaturalGasCalculation> FixedCombustionNaturalGasCalculations { get; set; }
+        public DbSet<MobileOffRoadDieselCalculation> MobileOffRoadDieselCalculations { get; set; }
+        public DbSet<MobileOffRoadGasolineCalculation> MobileOffRoadGasolineCalculations { get; set; }
+        public DbSet<MobileOnRoadDieselCalculation> MobileOnRoadDieselCalculations { get; set; }
+        public DbSet<MobileOnRoadGasolineCalculation> MobileOnRoadGasolineCalculations { get; set; }
+        public DbSet<MobileOnRoadLPGCalculation> MobileOnRoadLPGCalculations { get; set; }
+        public DbSet<CarbonContainingMaterialCalculation> CarbonContainingMaterialCalculations { get; set; }
+
+        #endregion
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

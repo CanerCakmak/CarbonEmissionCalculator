@@ -4,29 +4,29 @@ namespace CarbonEmissionCalculator.Domain.Entities
 {
     public class CarbonContainingMaterialCalculation : BaseEntity
     {
-        public decimal RawMaterialActivity1 { get; set; }
-        public decimal RawMaterialCarbon1 { get; set; }
-        public decimal RawMaterialCarbonAmount1 { get; set; }
-        public decimal FinalProductActivity1 { get; set; }
-        public decimal FinalProductCarbon1 { get; set; }
-        public decimal FinalProductCarbonAmount1 { get; set; }
-        public decimal TotalCarbon1 { get; set; }
-        public decimal ConversionFactor1 { get; set; }
-        public decimal TotalEmissionKg1 { get; set; }
-        public decimal TotalEmissionTon1 { get; set; }
+        public double RawMaterialActivity1 { get; set; }
+        public double RawMaterialCarbon1 { get; set; }
+        public double RawMaterialCarbonAmount1 { get; set; }
+        public double FinalProductActivity1 { get; set; }
+        public double FinalProductCarbon1 { get; set; }
+        public double FinalProductCarbonAmount1 { get; set; }
+        public double TotalCarbon1 { get; set; }
+        public double ConversionFactor1 { get; set; }
+        public double TotalEmissionKg1 { get; set; }
+        public double TotalEmissionTon1 { get; set; }
 
-        public decimal RawMaterialActivity2 { get; set; }
-        public decimal RawMaterialCarbon2 { get; set; }
-        public decimal RawMaterialCarbonAmount2 { get; set; }
-        public decimal FinalProductActivity2 { get; set; }
-        public decimal FinalProductCarbon2 { get; set; }
-        public decimal FinalProductCarbonAmount2 { get; set; }
-        public decimal TotalCarbon2 { get; set; }
-        public decimal ConversionFactor2 { get; set; }
-        public decimal TotalEmissionKg2 { get; set; }
-        public decimal TotalEmissionTon2 { get; set; }
+        public double RawMaterialActivity2 { get; set; }
+        public double RawMaterialCarbon2 { get; set; }
+        public double RawMaterialCarbonAmount2 { get; set; }
+        public double FinalProductActivity2 { get; set; }
+        public double FinalProductCarbon2 { get; set; }
+        public double FinalProductCarbonAmount2 { get; set; }
+        public double TotalCarbon2 { get; set; }
+        public double ConversionFactor2 { get; set; }
+        public double TotalEmissionKg2 { get; set; }
+        public double TotalEmissionTon2 { get; set; }
 
-        public decimal GrandTotalKg { get; set; }
-        public decimal GrandTotalTon { get; set; }
+        public double GrandTotalKg { get; set; }
+        public double GrandTotalTon { get; set; }
     }
 }
