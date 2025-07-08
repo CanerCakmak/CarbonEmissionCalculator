@@ -16,7 +16,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             _unitOfWork = unitOfWork;
             _customMapper = customMapper;
         }
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()   
         {
             IList<MobileOnRoadDieselCalculation> values = await _unitOfWork.GetReadRepository<MobileOnRoadDieselCalculation>().GetAllAsync();
 

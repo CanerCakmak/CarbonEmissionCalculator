@@ -18,7 +18,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             _customMapper = customMapper;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             IList<CarbonContainingMaterialCalculation> values = await _unitOfWork.GetReadRepository<CarbonContainingMaterialCalculation>().GetAllAsync();
 

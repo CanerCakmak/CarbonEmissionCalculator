@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IList<CarbonContainingMaterialCalculation>
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light">
+
+            </span>
+            KARBON İÇERİKLİ HAMMADDE PROSESİ
+            <a style="float:right;" class="btn btn-outline-primary" asp-area="Calculation" asp-controller="CarbonContainingMaterial" asp-action="Create">+Veri Ekle</a>
+        </h4>
+
+        <!-- Basic Bootstrap Table -->
+        <div class="card">
+            <h5 class="card-header">Veriler</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Firma Adı</th>
+                            <th>
+                                (Hammadde)Faaliyet Verisi (ton)
+                            </th>
+                            <th>(Hammadde)Karbon Oranı (%)</th>
+                            <th>(Hammadde)Karbon Miktarı(ton)
+                            <th>
+                            <th>(Son Ürün)Faaliyet Verisi (ton)</th>
+                            <th>(Son Ürün)Karbon Oranı (%)</th>
+                            <th>(Son Ürün)Karbon Miktarı(ton)
+                            <th>
+                            <th>
+                                Dönüşüm Faktörü(Ton CO2/Ton C)
+                            </th>
+                            <th>
+                                Toplam Emisyon(kg CO2e)
+                            </th>
+                            <th>
+                                Toplam Emisyon(Ton CO2e)
+                            </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        @if (Model.Any())
+                        {
+
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.FirmName</td>
+                                    <td>@item.RawMaterialActivity1</td>
+                                    <td>@item.RawMaterialCarbon1</td>
+                                    <td>@item.RawMaterialCarbonAmount1</td>
+                                    <td>@item.FinalProductActivity1</td>
+                                    <td>@item.FinalProductCarbon1</td>
+                                    <td>@item.FinalProductCarbonAmount1</td>
+                                    <td>@item.ConversionFactor1</td>
+                                    <td>@item.TotalEmissionKg1</td>
+                                    <td>@item.TotalEmissionTon1</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>
+                                    Veri Bulunamadı
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
