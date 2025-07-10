@@ -40,7 +40,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             await _unitOfWork.GetWriteRepository<FixedCombustionGasolineCalculation>().AddAsync(calc);
             await _unitOfWork.SaveAsync();
 
-            return RedirectToAction("IndexAsync");
+            return RedirectToAction("Index");
         }
 
         [HttpDelete]
@@ -49,7 +49,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             await _unitOfWork.GetWriteRepository<FixedCombustionGasolineCalculation>().HardDeleteByIdAsync(id);
             await _unitOfWork.SaveAsync();
 
-            return RedirectToAction("IndexAsync");
+            return RedirectToAction("Index");
         }
     }
 }

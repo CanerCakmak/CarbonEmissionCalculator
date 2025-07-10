@@ -39,7 +39,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             await _unitOfWork.GetWriteRepository<MobileOnRoadDieselCalculation>().AddAsync(calc);
             await _unitOfWork.SaveAsync();
 
-            return RedirectToAction("IndexAsync");
+            return RedirectToAction("Index");
         }
 
         [HttpDelete]
@@ -48,7 +48,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             await _unitOfWork.GetWriteRepository<MobileOnRoadDieselCalculation>().HardDeleteByIdAsync(id);
             await _unitOfWork.SaveAsync();
 
-            return RedirectToAction("IndexAsync");
+            return RedirectToAction("Index");
         }
     }
 }
