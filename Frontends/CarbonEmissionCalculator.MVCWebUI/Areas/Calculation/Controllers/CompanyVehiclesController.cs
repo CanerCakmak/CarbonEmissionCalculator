@@ -34,21 +34,21 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(FixedCombustionNaturalGasCalculation calc)
+        public async Task<IActionResult> Create(CompanyVehiclesCalculation calc)
         {
-            await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().AddAsync(calc);
+            await _unitOfWork.GetWriteRepository<CompanyVehiclesCalculation>().AddAsync(calc);
             await _unitOfWork.SaveAsync();
 
-            return RedirectToAction("IndexAsync");
+            return RedirectToAction("Index");
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().HardDeleteByIdAsync(id);
+            await _unitOfWork.GetWriteRepository<CompanyVehiclesCalculation>().HardDeleteByIdAsync(id);
             await _unitOfWork.SaveAsync();
 
-            return RedirectToAction("IndexAsync");
+            return RedirectToAction("Index");
         }
     }
 }

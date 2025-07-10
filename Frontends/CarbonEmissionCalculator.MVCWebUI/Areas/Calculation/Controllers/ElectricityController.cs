@@ -12,7 +12,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomMapper _customMapper;
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             IList<FixedCombustionNaturalGasCalculation> values = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAllAsync();
 
@@ -35,7 +35,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().AddAsync(calc);
             await _unitOfWork.SaveAsync();
 
-            return RedirectToAction("IndexAsync");
+            return RedirectToAction("Index");
         }
 
         [HttpDelete]
@@ -44,7 +44,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().HardDeleteByIdAsync(id);
             await _unitOfWork.SaveAsync();
 
-            return RedirectToAction("IndexAsync");
+            return RedirectToAction("Index");
         }
     }
 }

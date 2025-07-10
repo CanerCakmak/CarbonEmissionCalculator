@@ -16,15 +16,15 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             _unitOfWork = unitOfWork;
             _customMapper = customMapper;
         }
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
-            IList<FixedCombustionNaturalGasCalculation> values = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAllAsync();
+            IList<RefrigerantGasesCalculation> values = await _unitOfWork.GetReadRepository<RefrigerantGasesCalculation>().GetAllAsync();
 
             return View(values);
         }
         public async Task<IActionResult> Detail(int id)
         {
-            FixedCombustionNaturalGasCalculation value = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAsync(x => x.Id == id);
+            RefrigerantGasesCalculation value = await _unitOfWork.GetReadRepository<RefrigerantGasesCalculation>().GetAsync(x => x.Id == id);
 
             return View(value);
         }
@@ -34,21 +34,21 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(FixedCombustionNaturalGasCalculation calc)
+        public async Task<IActionResult> Create(RefrigerantGasesCalculation calc)
         {
-            await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().AddAsync(calc);
+            await _unitOfWork.GetWriteRepository<RefrigerantGasesCalculation>().AddAsync(calc);
             await _unitOfWork.SaveAsync();
 
-            return RedirectToAction("IndexAsync");
+            return RedirectToAction("Index");
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().HardDeleteByIdAsync(id);
+            await _unitOfWork.GetWriteRepository<RefrigerantGasesCalculation>().HardDeleteByIdAsync(id);
             await _unitOfWork.SaveAsync();
 
-            return RedirectToAction("IndexAsync");
+            return RedirectToAction("Index");
         }
     }
 }

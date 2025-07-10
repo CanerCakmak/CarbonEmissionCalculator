@@ -1,5 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Atık Su Arıtma Tesisi";
+﻿@using CarbonEmissionCalculator.Domain.Entities
+@model WastewaterTreatmentCalculation
+
+@{
+    ViewData["Title"] = "Atık Su Arıtma";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,6 +17,14 @@
     <div class="card mb-4">
         <div class="card-body">
             <form id="wastewaterTreatmentForm">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Firma İsmi</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="firmName" asp-for="FirmName" required />
+                        </div>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>

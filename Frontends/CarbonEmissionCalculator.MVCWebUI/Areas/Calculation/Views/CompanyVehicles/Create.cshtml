@@ -1,4 +1,7 @@
-﻿@{
+﻿@using CarbonEmissionCalculator.Domain.Entities
+@model CompanyVehiclesCalculation
+
+@{
     ViewData["Title"] = "Şirket Araçları - Binek ve Yük Araçları";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -52,6 +55,14 @@
     <div class="card-body">
         <div class="table-responsive text-nowrap">
             <form id="companyVehiclesForm">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Firma İsmi</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="firmName" asp-for="FirmName" required />
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-bordered">
                     <thead class="sticky-header">
                         <tr class="text-center bg-light">
