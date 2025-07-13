@@ -27,7 +27,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive text-nowrap">
-            <form id="carbonMaterialForm">
+            <form id="carbonMaterialForm" method="post" asp-area="Calculation" asp-controller="CarbonContainingMaterial" asp-action="Create">
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <label class="form-label">Firma İsmi</label>
@@ -90,20 +90,47 @@
                         </tr>
                     </tbody>
                 </table>
-            </form>
-        </div>
-        <div class="row mt-4">
-            <div class="col">
-                <button type="button" class="btn btn-primary" onclick="calculateEmissions()">
-                    <i class="fas fa-calculator me-2"></i>Hesapla
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="resetForm()">
-                    <i class="fas fa-undo me-2"></i>Sıfırla
-                </button>
+                
+                <!-- Hidden inputs for form submission -->
+                <input type="hidden" asp-for="FirmName" id="hiddenFirmName" />
+                <input type="hidden" asp-for="RawMaterialActivity1" id="hiddenRawMaterialActivity1" />
+                <input type="hidden" asp-for="RawMaterialCarbon1" id="hiddenRawMaterialCarbon1" />
+                <input type="hidden" asp-for="RawMaterialCarbonAmount1" id="hiddenRawMaterialCarbonAmount1" />
+                <input type="hidden" asp-for="FinalProductActivity1" id="hiddenFinalProductActivity1" />
+                <input type="hidden" asp-for="FinalProductCarbon1" id="hiddenFinalProductCarbon1" />
+                <input type="hidden" asp-for="FinalProductCarbonAmount1" id="hiddenFinalProductCarbonAmount1" />
+                <input type="hidden" asp-for="ConversionFactor1" id="hiddenConversionFactor1" />
+                <input type="hidden" asp-for="TotalCarbon1" id="hiddenTotalCarbon1" />
+                <input type="hidden" asp-for="TotalEmissionKg1" id="hiddenTotalEmissionKg1" />
+                <input type="hidden" asp-for="TotalEmissionTon1" id="hiddenTotalEmissionTon1" />
+                
+                <input type="hidden" asp-for="RawMaterialActivity2" id="hiddenRawMaterialActivity2" />
+                <input type="hidden" asp-for="RawMaterialCarbon2" id="hiddenRawMaterialCarbon2" />
+                <input type="hidden" asp-for="RawMaterialCarbonAmount2" id="hiddenRawMaterialCarbonAmount2" />
+                <input type="hidden" asp-for="FinalProductActivity2" id="hiddenFinalProductActivity2" />
+                <input type="hidden" asp-for="FinalProductCarbon2" id="hiddenFinalProductCarbon2" />
+                <input type="hidden" asp-for="FinalProductCarbonAmount2" id="hiddenFinalProductCarbonAmount2" />
+                <input type="hidden" asp-for="ConversionFactor2" id="hiddenConversionFactor2" />
+                <input type="hidden" asp-for="TotalCarbon2" id="hiddenTotalCarbon2" />
+                <input type="hidden" asp-for="TotalEmissionKg2" id="hiddenTotalEmissionKg2" />
+                <input type="hidden" asp-for="TotalEmissionTon2" id="hiddenTotalEmissionTon2" />
+                
+                <input type="hidden" asp-for="GrandTotalKg" id="hiddenGrandTotalKg" />
+                <input type="hidden" asp-for="GrandTotalTon" id="hiddenGrandTotalTon" />
+                
+                <div class="row mt-4">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" onclick="calculateEmissions()">
+                            <i class="fas fa-calculator me-2"></i>Hesapla
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            <i class="fas fa-undo me-2"></i>Sıfırla
+                        </button>
 
-                <button type="submit" id="postToDb" class="btn btn-success" style="float:right;">Onayla Ve Kaydet</button>
-            </div>
-        </div>
+                        <button type="submit" id="postToDb" class="btn btn-success" style="float:right;" onclick="console.log('Submit button clicked')">Onayla Ve Kaydet</button>
+                    </div>
+                </div>
+            </form>
     </div>
 </div>
 
@@ -116,11 +143,11 @@
             // Calculate for both rows
             for (let i = 1; i <= 2; i++) {
                 // Get input values
-                const rawMaterialActivity = parseFloat(document.getElementById('rawMaterialActivity' + i).value) || 0;
-                const rawMaterialCarbon = parseFloat(document.getElementById('rawMaterialCarbon' + i).value) || 0;
-                const finalProductActivity = parseFloat(document.getElementById('finalProductActivity' + i).value) || 0;
-                const finalProductCarbon = parseFloat(document.getElementById('finalProductCarbon' + i).value) || 0;
-                const conversionFactor = parseFloat(document.getElementById('conversionFactor' + i).value);
+                const rawMaterialActivity = parseFloat(document.getElementById('rawMaterialActivity' + i).value.replace(',', '.')) || 0;
+                const rawMaterialCarbon = parseFloat(document.getElementById('rawMaterialCarbon' + i).value.replace(',', '.')) || 0;
+                const finalProductActivity = parseFloat(document.getElementById('finalProductActivity' + i).value.replace(',', '.')) || 0;
+                const finalProductCarbon = parseFloat(document.getElementById('finalProductCarbon' + i).value.replace(',', '.')) || 0;
+                const conversionFactor = parseFloat(document.getElementById('conversionFactor' + i).value.replace(',', '.'));
 
                 // Calculate carbon amounts
                 const rawMaterialCarbonAmount = rawMaterialActivity * rawMaterialCarbon;
@@ -169,6 +196,43 @@
         ];
         inputFields.forEach(field => {
             document.getElementById(field).addEventListener('input', calculateEmissions);
+        });
+
+        // Form submit handler
+        document.getElementById('carbonMaterialForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Form submit triggered');
+            
+            // Update hidden inputs with current values
+            document.getElementById('hiddenFirmName').value = document.getElementById('firmName').value;
+            document.getElementById('hiddenRawMaterialActivity1').value = document.getElementById('rawMaterialActivity1').value;
+            document.getElementById('hiddenRawMaterialCarbon1').value = document.getElementById('rawMaterialCarbon1').value;
+            document.getElementById('hiddenRawMaterialCarbonAmount1').value = document.getElementById('rawMaterialCarbonAmount1').value;
+            document.getElementById('hiddenFinalProductActivity1').value = document.getElementById('finalProductActivity1').value;
+            document.getElementById('hiddenFinalProductCarbon1').value = document.getElementById('finalProductCarbon1').value;
+            document.getElementById('hiddenFinalProductCarbonAmount1').value = document.getElementById('finalProductCarbonAmount1').value;
+            document.getElementById('hiddenConversionFactor1').value = document.getElementById('conversionFactor1').value;
+            document.getElementById('hiddenTotalCarbon1').value = document.getElementById('totalCarbon1').value;
+            document.getElementById('hiddenTotalEmissionKg1').value = document.getElementById('totalEmissionKg1').value;
+            document.getElementById('hiddenTotalEmissionTon1').value = document.getElementById('totalEmissionTon1').value;
+            
+            document.getElementById('hiddenRawMaterialActivity2').value = document.getElementById('rawMaterialActivity2').value;
+            document.getElementById('hiddenRawMaterialCarbon2').value = document.getElementById('rawMaterialCarbon2').value;
+            document.getElementById('hiddenRawMaterialCarbonAmount2').value = document.getElementById('rawMaterialCarbonAmount2').value;
+            document.getElementById('hiddenFinalProductActivity2').value = document.getElementById('finalProductActivity2').value;
+            document.getElementById('hiddenFinalProductCarbon2').value = document.getElementById('finalProductCarbon2').value;
+            document.getElementById('hiddenFinalProductCarbonAmount2').value = document.getElementById('finalProductCarbonAmount2').value;
+            document.getElementById('hiddenConversionFactor2').value = document.getElementById('conversionFactor2').value;
+            document.getElementById('hiddenTotalCarbon2').value = document.getElementById('totalCarbon2').value;
+            document.getElementById('hiddenTotalEmissionKg2').value = document.getElementById('totalEmissionKg2').value;
+            document.getElementById('hiddenTotalEmissionTon2').value = document.getElementById('totalEmissionTon2').value;
+            
+            // Add grand totals
+            document.getElementById('hiddenGrandTotalKg').value = document.getElementById('grandTotalKg').value;
+            document.getElementById('hiddenGrandTotalTon').value = document.getElementById('grandTotalTon').value;
+            
+            // Submit the form
+            this.submit();
         });
     </script>
 }

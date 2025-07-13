@@ -1,0 +1,64 @@
+@using CarbonEmissionCalculator.Domain.Entities
+@model ElectricityCalculation
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mb-4">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Elektrik Tüketimi</h5>
+        <a href="/Calculation/Electricity" class="btn btn-sm btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Geri
+        </a>
+    </div>
+    <div class="card-body">
+        <form id="electricityForm" method="post">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Ülke</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="country" asp-for="Country" readonly />
+                    </div>
+                </div>
+
+                <!-- Tüketim Miktarı -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Tüketim Miktarı (kWh)</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="consumptionAmount" asp-for="ConsumptionAmount" readonly />
+                        <span class="input-group-text">kWh</span>
+                    </div>
+                </div>
+
+                <!-- Emisyon Faktörü -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Emisyon Faktörü</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="emissionFactor" asp-for="EmissionFactor" readonly />
+                        <span class="input-group-text">kg CO2e/kWh</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toplam Emisyon -->
+            <div class="row mt-4">
+                <h6 class="mb-3">Toplam Emisyon</h6>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Toplam Emisyon</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="totalEmission" asp-for="TotalEmission" readonly />
+                        <span class="input-group-text">kg CO2e</span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Toplam Emisyon (ton)</label>
+                    <div class="input-group">
+                        <input type="number" step="0.000001" class="form-control" id="totalEmissionTon" value="@(Model.TotalEmission / 1000)" readonly />
+                        <span class="input-group-text">ton CO2e</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div> 

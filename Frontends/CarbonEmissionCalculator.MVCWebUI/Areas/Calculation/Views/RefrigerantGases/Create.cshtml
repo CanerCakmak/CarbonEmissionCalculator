@@ -202,10 +202,10 @@
     <script>
         $(document).ready(function() {
             function calculateRow(row) {
-                const quantity = parseFloat(row.find('.quantity').val()) || 0;
-                const amount = parseFloat(row.find('.amount').val()) || 0;
-                const leakPercentage = parseFloat(row.find('.leak-percentage').val()) || 0;
-                const emissionFactor = parseFloat(row.find('.emission-factor').val()) || 0;
+                const quantity = parseFloat(row.find('.quantity').val().replace(',', '.')) || 0;
+                const amount = parseFloat(row.find('.amount').val().replace(',', '.')) || 0;
+                const leakPercentage = parseFloat(row.find('.leak-percentage').val().replace(',', '.')) || 0;
+                const emissionFactor = parseFloat(row.find('.emission-factor').val().replace(',', '.')) || 0;
 
                 // Calculate total amount
                 const totalAmount = quantity * amount;
@@ -230,11 +230,11 @@
                 let totalTonCO2e = 0;
 
                 $('.kg-co2e').each(function() {
-                    totalKgCO2e += parseFloat($(this).val()) || 0;
+                    totalKgCO2e += parseFloat($(this).val().replace(',', '.')) || 0;
                 });
 
                 $('.ton-co2e').each(function() {
-                    totalTonCO2e += parseFloat($(this).val()) || 0;
+                    totalTonCO2e += parseFloat($(this).val().replace(',', '.')) || 0;
                 });
 
                 $('#total-kg-co2e').val(totalKgCO2e.toFixed(2));

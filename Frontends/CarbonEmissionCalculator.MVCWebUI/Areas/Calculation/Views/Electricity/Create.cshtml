@@ -87,8 +87,8 @@
         // Sayfa yüklendiğinde ve input değerleri değiştiğinde hesaplama yap
         $(document).ready(function() {
             function calculateEmission() {
-                const consumption = parseFloat($("#ConsumptionAmount").val()) || 0;
-                const factor = parseFloat($("#EmissionFactor").val()) || 0;
+                const consumption = parseFloat($("#ConsumptionAmount").val().replace(',', '.')) || 0;
+                const factor = parseFloat($("#EmissionFactor").val().replace(',', '.')) || 0;
                 const total = (consumption * factor).toFixed(3);
                 $("#TotalEmission").val(total);
             }

@@ -42,7 +42,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpDelete]
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             await _unitOfWork.GetWriteRepository<WastewaterTreatmentCalculation>().HardDeleteByIdAsync(id);

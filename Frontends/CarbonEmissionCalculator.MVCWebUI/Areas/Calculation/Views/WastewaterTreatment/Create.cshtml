@@ -97,8 +97,8 @@
     <script>
         $(document).ready(function() {
             function calculateRow(row) {
-                const amount = parseFloat(row.find('.amount').val()) || 0;
-                const emissionFactor = parseFloat(row.find('.emission-factor').val()) || 0;
+                const amount = parseFloat(row.find('.amount').val().replace(',', '.')) || 0;
+                const emissionFactor = parseFloat(row.find('.emission-factor').val().replace(',', '.')) || 0;
 
                 // Calculate emissions
                 const kgCO2e = amount * emissionFactor;
@@ -115,7 +115,7 @@
                 let totalKgCO2e = 0;
 
                 $('.kg-co2e').each(function() {
-                    totalKgCO2e += parseFloat($(this).val()) || 0;
+                    totalKgCO2e += parseFloat($(this).val().replace(',', '.')) || 0;
                 });
 
                 // Set total kg CO2e

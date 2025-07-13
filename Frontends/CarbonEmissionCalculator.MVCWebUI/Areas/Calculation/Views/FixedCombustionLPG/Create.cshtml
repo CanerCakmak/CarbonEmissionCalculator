@@ -203,16 +203,16 @@
     <script>
         document.getElementById('calculateButton').addEventListener('click', function() {
             // Giriş değerlerini al
-            const consumptionAmount = parseFloat(document.getElementById('consumptionAmount').value) || 0;
-            const density = parseFloat(document.getElementById('density').value) || 0;
-            const netCaloricValue = parseFloat(document.getElementById('netCaloricValue').value) || 0;
-            const carbonOxidationFactor = parseFloat(document.getElementById('carbonOxidationFactor').value) || 0;
-            const co2Factor = parseFloat(document.getElementById('co2Factor').value) || 0;
-            const ch4Factor = parseFloat(document.getElementById('ch4Factor').value) || 0;
-            const n2oFactor = parseFloat(document.getElementById('n2oFactor').value) || 0;
-            const co2GWP = parseFloat(document.getElementById('co2GWP').value) || 1;
-            const ch4GWP = parseFloat(document.getElementById('ch4GWP').value) || 28;
-            const n2oGWP = parseFloat(document.getElementById('n2oGWP').value) || 265;
+            const consumptionAmount = parseFloat(document.getElementById('consumptionAmount').value.replace(',', '.')) || 0;
+            const density = parseFloat(document.getElementById('density').value.replace(',', '.')) || 0;
+            const netCaloricValue = parseFloat(document.getElementById('netCaloricValue').value.replace(',', '.')) || 0;
+            const carbonOxidationFactor = parseFloat(document.getElementById('carbonOxidationFactor').value.replace(',', '.')) || 0;
+            const co2Factor = parseFloat(document.getElementById('co2Factor').value.replace(',', '.')) || 0;
+            const ch4Factor = parseFloat(document.getElementById('ch4Factor').value.replace(',', '.')) || 0;
+            const n2oFactor = parseFloat(document.getElementById('n2oFactor').value.replace(',', '.')) || 0;
+            const co2GWP = parseFloat(document.getElementById('co2GWP').value.replace(',', '.')) || 1;
+            const ch4GWP = parseFloat(document.getElementById('ch4GWP').value.replace(',', '.')) || 28;
+            const n2oGWP = parseFloat(document.getElementById('n2oGWP').value.replace(',', '.')) || 265;
 
             // Tüketim miktarı hesaplamaları
             const consumptionKg = consumptionAmount * density;

@@ -441,10 +441,10 @@
             const rows = document.querySelectorAll('tbody tr:not(.bg-light)');
 
             rows.forEach(row => {
-                const distance = parseFloat(row.querySelector('.distance').value) || 0;
-                const efCO2 = parseFloat(row.querySelector('.ef-co2').value) || 0;
-                const efCH4 = parseFloat(row.querySelector('.ef-ch4').value) || 0;
-                const efN2O = parseFloat(row.querySelector('.ef-n2o').value) || 0;
+                const distance = parseFloat(row.querySelector('.distance').value.replace(',', '.')) || 0;
+                const efCO2 = parseFloat(row.querySelector('.ef-co2').value.replace(',', '.')) || 0;
+                const efCH4 = parseFloat(row.querySelector('.ef-ch4').value.replace(',', '.')) || 0;
+                const efN2O = parseFloat(row.querySelector('.ef-n2o').value.replace(',', '.')) || 0;
 
                 // Calculate emissions
                 const emissionCO2 = distance * efCO2;
