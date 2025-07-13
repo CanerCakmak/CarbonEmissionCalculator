@@ -1,16 +1,17 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model IList<FixedCombustionNaturalGasCalculation>
+@model IList<ElectricityCalculation>
 <div class="content-wrapper">
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
-            <span class="text-muted fw-light">Sabit Yanma /</span>Doğalgaz
-            <a style="float:right;" class="btn btn-outline-primary" asp-area="Calculation" asp-controller="FixedCombustionNaturalGas" asp-action="Create">+Veri Ekle</a>
+            <span class="text-muted fw-light">Electricity </span>
+            <a style="float:right;" class="btn btn-outline-primary" asp-area="Calculation" asp-controller="Electricity" asp-action="Create">+Veri Ekle</a>
         </h4>
 
         <!-- Basic Bootstrap Table -->
@@ -21,16 +22,10 @@
                     <thead>
                         <tr>
                             <th>Firm Name</th>
+                            <th>Country</th>
                             <th>ConsumptionAmount</th>
-                            <th>Density</th>
-                            <th>NetCaloricValue</th>
-                            <th>CarbonOxidationFactor</th>
-                            <th>Co2Factor</th>
-                            <th>Ch4Factor</th>
-                            <th>N2oFactor</th>
-                            <th>TotalCO2e</th>
-                            <th>TotalCO2eTon</th>
-                            <th>Actions</th>
+                            <th>EmissionFactor</th>
+                            <th>TotalEmission</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -42,20 +37,15 @@
                             {
                                 <tr>
                                     <td>@item.FirmName</td>
+                                    <td>@item.Country</td>
                                     <td>@item.ConsumptionAmount</td>
-                                    <td>@item.Density</td>
-                                    <td>@item.NetCaloricValue</td>
-                                    <td>@item.CarbonOxidationFactor</td>
-                                    <td>@item.Co2Factor</td>
-                                    <td>@item.Ch4Factor</td>
-                                    <td>@item.N2oFactor</td>
-                                    <td>@item.TotalCO2e</td>
-                                    <td>@item.TotalCO2eTon</td>
+                                    <td>@item.EmissionFactor</td>
+                                    <td>@item.TotalEmission</td>
                                     <td>
-                                        <a asp-area="Calculation" asp-controller="FixedCombustionNaturalGas" asp-action="Detail" asp-route-id="@item.Id" class="btn p-0">
+                                        <a asp-area="Calculation" asp-controller="Electricity" asp-action="Detail" asp-route-id="@item.Id" class="btn p-0">
                                             <i class="bx bx-x"></i>
                                         </a>
-                                        <a asp-area="Calculation" asp-controller="FixedCombustionNaturalGas" asp-action="Delete" asp-route-id="@item.Id" class="btn p-0">
+                                        <a asp-area="Calculation" asp-controller="Electricity" asp-action="Delete" asp-route-id="@item.Id" class="btn p-0">
                                             <i class="bx bx-x"></i>
                                         </a>
                                     </td>

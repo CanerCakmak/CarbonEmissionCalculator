@@ -21,6 +21,7 @@ namespace CarbonEmissionCalculator.Persistence.Context
         public DbSet<MobileOnRoadGasolineCalculation> MobileOnRoadGasolineCalculations { get; set; }
         public DbSet<MobileOnRoadLPGCalculation> MobileOnRoadLPGCalculations { get; set; }
         public DbSet<CarbonContainingMaterialCalculation> CarbonContainingMaterialCalculations { get; set; }
+        public DbSet<ElectricityCalculation> ElectricityCalculations { get; set; }
 
         #endregion
 
