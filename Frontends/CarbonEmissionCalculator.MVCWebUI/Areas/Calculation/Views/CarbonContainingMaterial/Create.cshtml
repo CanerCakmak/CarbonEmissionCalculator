@@ -118,18 +118,18 @@
                 <input type="hidden" asp-for="GrandTotalKg" id="hiddenGrandTotalKg" />
                 <input type="hidden" asp-for="GrandTotalTon" id="hiddenGrandTotalTon" />
                 
-                <div class="row mt-4">
-                    <div class="col">
-                        <button type="button" class="btn btn-primary" onclick="calculateEmissions()">
-                            <i class="fas fa-calculator me-2"></i>Hesapla
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
-                            <i class="fas fa-undo me-2"></i>Sıfırla
-                        </button>
+        <div class="row mt-4">
+            <div class="col">
+                <button type="button" class="btn btn-primary" onclick="calculateEmissions()">
+                    <i class="fas fa-calculator me-2"></i>Hesapla
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                    <i class="fas fa-undo me-2"></i>Sıfırla
+                </button>
 
                         <button type="submit" id="postToDb" class="btn btn-success" style="float:right;" onclick="console.log('Submit button clicked')">Onayla Ve Kaydet</button>
-                    </div>
-                </div>
+            </div>
+        </div>
             </form>
     </div>
 </div>

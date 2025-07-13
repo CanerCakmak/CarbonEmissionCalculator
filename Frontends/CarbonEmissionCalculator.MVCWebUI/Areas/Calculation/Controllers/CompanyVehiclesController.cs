@@ -18,13 +18,13 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            IList<FixedCombustionNaturalGasCalculation> values = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAllAsync();
+            IList<CompanyVehiclesCalculation> values = await _unitOfWork.GetReadRepository<CompanyVehiclesCalculation>().GetAllAsync();
 
             return View(values);
         }
         public async Task<IActionResult> Detail(int id)
         {
-            FixedCombustionNaturalGasCalculation value = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAsync(x => x.Id == id);
+            CompanyVehiclesCalculation value = await _unitOfWork.GetReadRepository<CompanyVehiclesCalculation>().GetAsync(x => x.Id == id);
 
             return View(value);
         }
