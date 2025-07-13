@@ -1,5 +1,5 @@
 ﻿@using CarbonEmissionCalculator.MVCWebUI.Models
-@model ElectricityViewModel
+@model ElectricityCalculation
 @{
     ViewData["Title"] = "Elektrik Hesaplama";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,8 +23,13 @@
             </div>
         </div>
 
-        <form method="post" asp-action="Electricity">
+        <form method="post">
             <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FirmName" class="form-label">Firma Adı</label>
+                    <input asp-for="FirmName" class="form-control" />
+                    <span asp-validation-for="FirmName" class="text-danger"></span>
+                </div>
                 <div class="col-md-6 mb-3">
                     <label asp-for="Country" class="form-label">Ülke</label>
                     <input asp-for="Country" class="form-control" />

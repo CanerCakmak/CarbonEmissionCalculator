@@ -12,15 +12,21 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomMapper _customMapper;
 
+        public ElectricityController(IUnitOfWork unitOfWork, ICustomMapper customMapper)
+        {
+            _unitOfWork = unitOfWork;
+            _customMapper = customMapper;
+        }
+
         public async Task<IActionResult> Index()
         {
-            IList<FixedCombustionNaturalGasCalculation> values = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAllAsync();
+            IList<ElectricityCalculation> values = await _unitOfWork.GetReadRepository<ElectricityCalculation>().GetAllAsync();
 
             return View(values);
         }
         public async Task<IActionResult> Detail(int id)
         {
-            FixedCombustionNaturalGasCalculation value = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAsync(x => x.Id == id);
+            ElectricityCalculation value = await _unitOfWork.GetReadRepository<ElectricityCalculation>().GetAsync(x => x.Id == id);
 
             return View(value);
         }
@@ -30,18 +36,18 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(FixedCombustionNaturalGasCalculation calc)
+        public async Task<IActionResult> Create(ElectricityCalculation calc)
         {
-            await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().AddAsync(calc);
+            await _unitOfWork.GetWriteRepository<ElectricityCalculation>().AddAsync(calc);
             await _unitOfWork.SaveAsync();
 
             return RedirectToAction("Index");
         }
 
-        [HttpDelete]
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().HardDeleteByIdAsync(id);
+            await _unitOfWork.GetWriteRepository<ElectricityCalculation>().HardDeleteByIdAsync(id);
             await _unitOfWork.SaveAsync();
 
             return RedirectToAction("Index");

@@ -1,11 +1,33 @@
 using CarbonEmissionCalculator.Application;
-using CarbonEmissionCalculator.Persistence;
 using CarbonEmissionCalculator.CustomMapper;
+using CarbonEmissionCalculator.Persistence;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    // Varsayýlan olarak Ýngiliz (en-US) kültürünü kullan
+    // Bu, ondalýk ayýrýcýnýn '.' olmasýný saðlar.
+    var defaultCulture = new CultureInfo("en-US");
+
+    // Desteklenen kültürleri belirle (sadece en-US veya ihtiyacýnýza göre tr-TR de ekleyebilirsiniz)
+    options.DefaultRequestCulture = new RequestCulture(defaultCulture);
+    options.SupportedCultures = new List<CultureInfo> { defaultCulture };
+    options.SupportedUICultures = new List<CultureInfo> { defaultCulture };
+
+    // Eðer front-end'den spesifik bir Culture header (Accept-Language) gelmezse
+    // veya bu kültürü zorlamak isterseniz kullanýlabilir:
+    // options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
+    // {
+    //     // Ýstek yoluyla kültürü belirle veya sabit bir kültür döndür
+    //     return new ProviderCultureResult("en-US");
+    // }));
+});
 
 #region EnvironmentBasedJson
 IWebHostEnvironment env = builder.Environment;
@@ -35,6 +57,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseRequestLocalization();
 
 app.UseAuthorization();
 
