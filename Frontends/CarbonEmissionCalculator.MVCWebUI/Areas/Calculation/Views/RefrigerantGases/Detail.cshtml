@@ -1,0 +1,56 @@
+@model CarbonEmissionCalculator.Domain.Entities.RefrigerantGasesCalculationGroup
+@{
+    ViewData["Title"] = "Soğutucu Gazlar Detay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mt-4">Soğutucu Gazlar Detay</h2>
+        <a href="/Calculation/RefrigerantGases" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Geri
+        </a>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>Firma İsmi: @Model.FirmName</h5>
+            <h6>Oluşturulma Tarihi: @Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</h6>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ekipman Türü</th>
+                            <th>Miktar (kg)</th>
+                            <th>Emisyon Faktörü (kgCO₂e/kg)</th>
+                            <th>Kaçak Yüzdesi</th>
+                            <th>Kaçak Miktarı</th>
+                            <th>kg CO₂e</th>
+                            <th>Ton CO₂e</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Rows)
+                        {
+                            <tr>
+                                <td>@item.RefrigerantType</td>
+                                <td>@item.RefrigerantAmount</td>
+                                <td>@item.GWPFactor</td>
+                                <td>@item.LeakageRate</td>
+                                <td>@item.TotalLeakage</td>
+                                <td>@item.TotalCO2e</td>
+                                <td>@item.TotalCO2eTon</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="text-end"><strong>TOPLAM</strong></td>
+                            <td><strong>@Model.TotalCO2e</strong></td>
+                            <td><strong>@Model.TotalCO2eTon</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 

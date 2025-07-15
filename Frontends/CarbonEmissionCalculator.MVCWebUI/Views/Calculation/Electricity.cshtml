@@ -32,7 +32,7 @@
                 <div class="col-md-6 mb-3">
                     <label asp-for="ConsumptionAmount" class="form-label"></label>
                     <div class="input-group">
-                        <input asp-for="ConsumptionAmount" class="form-control" type="number" step="0.01" />
+                        <input asp-for="ConsumptionAmount" class="form-control" type="number" step="0.000001" />
                         <span class="input-group-text">@Model.Unit</span>
                     </div>
                     <span asp-validation-for="ConsumptionAmount" class="text-danger"></span>
@@ -43,7 +43,7 @@
                 <div class="col-md-6 mb-3">
                     <label asp-for="EmissionFactor" class="form-label"></label>
                     <div class="input-group">
-                        <input asp-for="EmissionFactor" class="form-control" type="number" step="0.001" />
+                        <input asp-for="EmissionFactor" class="form-control" type="number" step="0.000001" />
                         <span class="input-group-text">ton CO2/mWh</span>
                     </div>
                     <span asp-validation-for="EmissionFactor" class="text-danger"></span>

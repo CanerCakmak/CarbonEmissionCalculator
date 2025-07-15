@@ -1,12 +1,10 @@
+@model IList<CarbonEmissionCalculator.Domain.Entities.RefrigerantGasesCalculationGroup>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@model IList<RefrigerantGasesCalculation>
 <div class="content-wrapper">
     <!-- Content -->
-
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">Soğutucu Gazlar</span>
@@ -17,7 +15,6 @@
                 <a class="btn btn-outline-primary" asp-area="Calculation" asp-controller="RefrigerantGases" asp-action="Create">+Veri Ekle</a>
             </div>
         </h4>
-
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">Veriler</h5>
@@ -25,15 +22,11 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Firm Name</th>
-                            <th>Refrigerant Type</th>
-                            <th>Refrigerant Amount</th>
-                            <th>GWP Factor</th>
-                            <th>Leakage Rate</th>
-                            <th>Disposal Rate</th>
-                            <th>Total CO2e</th>
-                            <th>Total CO2e (Ton)</th>
-                            <th>Actions</th>
+                            <th>Firma İsmi</th>
+                            <th>Oluşturulma Tarihi</th>
+                            <th>Ekipman Sayısı</th>
+                            <th>Toplam C02/Ton</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -43,17 +36,14 @@
                             {
                                 <tr>
                                     <td>@item.FirmName</td>
-                                    <td>@item.RefrigerantType</td>
-                                    <td>@item.RefrigerantAmount</td>
-                                    <td>@item.GWPFactor</td>
-                                    <td>@item.LeakageRate</td>
-                                    <td>@item.TotalCO2e</td>
+                                    <td>@item.CreatedAt.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                                    <td>@(item.Rows != null ? item.Rows.Count : 0)</td>
                                     <td>@item.TotalCO2eTon</td>
                                     <td>
                                         <a asp-area="Calculation" asp-controller="RefrigerantGases" asp-action="Detail" asp-route-id="@item.Id" class="btn p-0">
                                             <i class="bx bx-show"></i>
                                         </a>
-                                        <a asp-area="Calculation" asp-controller="RefrigerantGases" asp-action="Delete" asp-route-id="@item.Id" class="btn p-0">
+                                        <a asp-area="Calculation" asp-controller="RefrigerantGases" asp-action="Delete" asp-route-id="@item.Id" class="btn p-0" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz? Devam etmek için Tamam, iptal etmek için İptal\'e tıklayın.');">
                                             <i class="bx bx-x"></i>
                                         </a>
                                     </td>
@@ -63,7 +53,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="9">
+                                <td colspan="4">
                                     Veri Bulunamadı
                                 </td>
                             </tr>
@@ -72,6 +62,5 @@
                 </table>
             </div>
         </div>
-
     </div>
 </div> 
