@@ -1,12 +1,9 @@
+@model IList<CarbonEmissionCalculator.Domain.Entities.CompanyVehiclesCalculationGroup>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@model IList<CompanyVehiclesCalculation>
 <div class="content-wrapper">
-    <!-- Content -->
-
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">Şirket Araçları</span>
@@ -17,22 +14,17 @@
                 <a class="btn btn-outline-primary" asp-area="Calculation" asp-controller="CompanyVehicles" asp-action="Create">+Veri Ekle</a>
             </div>
         </h4>
-
-        <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">Veriler</h5>
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Firm Name</th>
-                            <th>Vehicle Type</th>
-                            <th>Fuel Consumption</th>
-                            <th>Fuel Type</th>
-                            <th>Emission Factor</th>
-                            <th>Total CO2</th>
-                            <th>Total CO2 (Ton)</th>
-                            <th>Actions</th>
+                            <th>Firma İsmi</th>
+                            <th>Oluşturulma Tarihi</th>
+                            <th>Araç Satırı</th>
+                            <th>Toplam CO2e Ton</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -42,17 +34,14 @@
                             {
                                 <tr>
                                     <td>@item.FirmName</td>
-                                    <td>@item.VehicleType</td>
-                                    <td>@item.FuelConsumption</td>
-                                    <td>@item.FuelType</td>
-                                    <td>@item.EmissionFactor</td>
-                                    <td>@item.TotalCO2</td>
-                                    <td>@item.TotalCO2Ton</td>
+                                    <td>@item.CreatedAt.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                                    <td>@(item.Rows != null ? item.Rows.Count : 0)</td>
+                                    <td>@item.TotalCO2eTon.ToString("F6")</td>
                                     <td>
                                         <a asp-area="Calculation" asp-controller="CompanyVehicles" asp-action="Detail" asp-route-id="@item.Id" class="btn p-0">
                                             <i class="bx bx-show"></i>
                                         </a>
-                                        <a asp-area="Calculation" asp-controller="CompanyVehicles" asp-action="Delete" asp-route-id="@item.Id" class="btn p-0">
+                                        <a asp-area="Calculation" asp-controller="CompanyVehicles" asp-action="Delete" asp-route-id="@item.Id" class="btn p-0" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz? Devam etmek için Tamam, iptal etmek için İptal\'e tıklayın.');">
                                             <i class="bx bx-x"></i>
                                         </a>
                                     </td>
@@ -62,7 +51,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="8">
+                                <td colspan="5">
                                     Veri Bulunamadı
                                 </td>
                             </tr>
@@ -71,6 +60,5 @@
                 </table>
             </div>
         </div>
-
     </div>
 </div> 

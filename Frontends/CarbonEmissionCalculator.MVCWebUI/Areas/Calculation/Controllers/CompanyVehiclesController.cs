@@ -1,7 +1,9 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
+using CarbonEmissionCalculator.MVCWebUI.Models;
 using CarbonEmissionCalculator.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
 {
@@ -18,15 +20,13 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            IList<CompanyVehiclesCalculation> values = await _unitOfWork.GetReadRepository<CompanyVehiclesCalculation>().GetAllAsync();
-
+            IList<CompanyVehiclesCalculationGroup> values = await _unitOfWork.GetReadRepository<CompanyVehiclesCalculationGroup>().GetAllAsync(include: x=> x.Include(x=>x.Rows));
             return View(values);
         }
         public async Task<IActionResult> Detail(int id)
         {
-            CompanyVehiclesCalculation value = await _unitOfWork.GetReadRepository<CompanyVehiclesCalculation>().GetAsync(x => x.Id == id);
-
-            return View(value);
+            var group = await _unitOfWork.GetReadRepository<CompanyVehiclesCalculationGroup>().GetAsync(x => x.Id == id, include: x => x.Include(x => x.Rows));
+            return View(group);
         }
         [HttpGet]
         public IActionResult Create()
@@ -34,18 +34,54 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CompanyVehiclesCalculation calc)
+        public async Task<IActionResult> Create(CompanyVehiclesCreateViewModel model)
         {
-            await _unitOfWork.GetWriteRepository<CompanyVehiclesCalculation>().AddAsync(calc);
+            var group = new CompanyVehiclesCalculationGroup
+            {
+                FirmName = model.FirmName,
+                CreatedAt = DateTime.Now,
+                Rows = new List<CompanyVehiclesCalculation>()
+            };
+            await _unitOfWork.GetWriteRepository<CompanyVehiclesCalculationGroup>().AddAsync(group);
             await _unitOfWork.SaveAsync();
 
+            double totalCO2e = 0;
+            double totalCO2eTon = 0;
+            if (model.Rows != null)
+            {
+                foreach (var row in model.Rows)
+                {
+                    totalCO2e += row.TotalCO2e;
+                    totalCO2eTon += row.TotalCO2eTon;
+                    var entity = new CompanyVehiclesCalculation
+                    {
+                        GroupId = group.Id,
+                        FirmName = model.FirmName,
+                        VehicleType = row.VehicleType,
+                        FuelType = row.FuelType,
+                        Distance = row.Distance,
+                        EmissionFactorCO2 = row.EmissionFactorCO2,
+                        EmissionFactorCH4 = row.EmissionFactorCH4,
+                        EmissionFactorN2O = row.EmissionFactorN2O,
+                        EmissionCO2 = row.EmissionCO2,
+                        EmissionCH4 = row.EmissionCH4,
+                        EmissionN2O = row.EmissionN2O,
+                        TotalCO2e = row.TotalCO2e,
+                        TotalCO2eTon = row.TotalCO2eTon
+                    };
+                    await _unitOfWork.GetWriteRepository<CompanyVehiclesCalculation>().AddAsync(entity);
+                }
+                group.TotalCO2e = totalCO2e;
+                group.TotalCO2eTon = totalCO2eTon;
+                await _unitOfWork.SaveAsync();
+            }
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            await _unitOfWork.GetWriteRepository<CompanyVehiclesCalculation>().HardDeleteByIdAsync(id);
+            await _unitOfWork.GetWriteRepository<CompanyVehiclesCalculationGroup>().HardDeleteByIdAsync(id);
             await _unitOfWork.SaveAsync();
 
             return RedirectToAction("Index");

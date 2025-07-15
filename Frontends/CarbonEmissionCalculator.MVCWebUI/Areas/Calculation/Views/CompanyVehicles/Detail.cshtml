@@ -1,80 +1,64 @@
 @using CarbonEmissionCalculator.Domain.Entities
-@model CompanyVehiclesCalculation
+@model CarbonEmissionCalculator.Domain.Entities.CompanyVehiclesCalculationGroup
 @{
-    ViewData["Title"] = "Detail";
+    ViewData["Title"] = "Şirket Araçları Detay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="card mb-4">
-    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">Şirket Araçları</h5>
-        <a href="/Calculation/CompanyVehicles" class="btn btn-sm btn-secondary">
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mt-4">Şirket Araçları Detay</h2>
+        <a href="/Calculation/CompanyVehicles" class="btn btn-secondary">
             <i class="fas fa-arrow-left me-1"></i>Geri
         </a>
     </div>
-    <div class="card-body">
-        <form id="companyVehiclesForm" method="post">
-            <div class="row">
-                <div class="col-md-12 mb-3">
-                    <label class="form-label">Firma İsmi</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="firmName" asp-for="FirmName" readonly />
-                    </div>
-                </div>
-
-                <!-- Araç Türü -->
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Araç Türü</label>
-                    <div class="input-group">
-                        <input type="number" step="0.01" class="form-control" id="vehicleType" asp-for="VehicleType" readonly />
-                    </div>
-                </div>
-
-                <!-- Yakıt Tüketimi -->
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Yakıt Tüketimi (L)</label>
-                    <div class="input-group">
-                        <input type="number" step="0.01" class="form-control" id="fuelConsumption" asp-for="FuelConsumption" readonly />
-                        <span class="input-group-text">L</span>
-                    </div>
-                </div>
-
-                <!-- Yakıt Türü -->
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Yakıt Türü</label>
-                    <div class="input-group">
-                        <input type="number" step="0.01" class="form-control" id="fuelType" asp-for="FuelType" readonly />
-                    </div>
-                </div>
-
-                <!-- Emisyon Faktörü -->
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Emisyon Faktörü</label>
-                    <div class="input-group">
-                        <input type="number" step="0.01" class="form-control" id="emissionFactor" asp-for="EmissionFactor" readonly />
-                        <span class="input-group-text">kg CO2/L</span>
-                    </div>
-                </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>Firma İsmi: @Model.FirmName</h5>
+            <h6>Oluşturulma Tarihi: @Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</h6>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Araç Türü</th>
+                            <th>Yakıt Türü</th>
+                            <th>Mesafe (km)</th>
+                            <th>kg CO₂/km</th>
+                            <th>kg CH₄/km</th>
+                            <th>kg N₂O/km</th>
+                            <th style="min-width:130px">kg CO₂</th>
+                            <th style="min-width:130px">kg CH₄</th>
+                            <th style="min-width:130px">kg N₂O</th>
+                            <th style="min-width:130px">kg CO₂e</th>
+                            <th style="min-width:130px">ton CO₂e</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Rows)
+                        {
+                            <tr>
+                                <td>@item.VehicleType</td>
+                                <td>@item.FuelType</td>
+                                <td>@item.Distance</td>
+                                <td>@item.EmissionFactorCO2</td>
+                                <td>@item.EmissionFactorCH4</td>
+                                <td>@item.EmissionFactorN2O</td>
+                                <td>@item.EmissionCO2</td>
+                                <td>@item.EmissionCH4</td>
+                                <td>@item.EmissionN2O</td>
+                                <td>@item.TotalCO2e</td>
+                                <td>@item.TotalCO2eTon</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="9" class="text-end"><strong>TOPLAM</strong></td>
+                            <td><strong>@Model.TotalCO2e kg</strong></td>
+                            <td><strong>@Model.TotalCO2eTon ton</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-
-            <!-- Toplam Emisyon -->
-            <div class="row mt-4">
-                <h6 class="mb-3">Toplam Emisyon</h6>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Toplam CO2</label>
-                    <div class="input-group">
-                        <input type="number" step="0.01" class="form-control" id="totalCO2" asp-for="TotalCO2" readonly />
-                        <span class="input-group-text">kg</span>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Toplam CO2 (Ton)</label>
-                    <div class="input-group">
-                        <input type="number" step="0.000001" class="form-control" id="totalCO2Ton" asp-for="TotalCO2Ton" readonly />
-                        <span class="input-group-text">ton</span>
-                    </div>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div> 

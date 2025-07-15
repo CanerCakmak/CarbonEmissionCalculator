@@ -25,17 +25,12 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Firm Name</th>
-                            <th>ConsumptionAmount</th>
-                            <th>Density</th>
-                            <th>NetCaloricValue</th>
-                            <th>CarbonOxidationFactor</th>
-                            <th>Co2Factor</th>
-                            <th>Ch4Factor</th>
-                            <th>N2oFactor</th>
-                            <th>TotalCO2e</th>
-                            <th>TotalCO2eTon</th>
-                            <th>Actions</th>
+                            <th>Firma İsmi</th>
+                            <th>Ton CO2</th>
+                            <th>Ton CH4</th>
+                            <th>Ton N2O</th>
+                            <th>Toplam CO2e Ton</th>
+                            <th>Eylemler</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -47,20 +42,15 @@
                             {
                                 <tr>
                                     <td>@item.FirmName</td>
-                                    <td>@item.ConsumptionAmount</td>
-                                    <td>@item.Density</td>
-                                    <td>@item.NetCaloricValue</td>
-                                    <td>@item.CarbonOxidationFactor</td>
-                                    <td>@item.Co2Factor</td>
-                                    <td>@item.Ch4Factor</td>
-                                    <td>@item.N2oFactor</td>
-                                    <td>@item.TotalCO2e</td>
+                                    <td>@item.TotalCO2</td>
+                                    <td>@item.TotalCH4</td>
+                                    <td>@item.TotalN2O</td>
                                     <td>@item.TotalCO2eTon</td>
                                     <td>
                                         <a asp-area="Calculation" asp-controller="FixedCombustionLPG" asp-action="Detail" asp-route-id="@item.Id" class="btn p-0">
                                             <i class="bx bx-show"></i>
                                         </a>
-                                        <a asp-area="Calculation" asp-controller="FixedCombustionLPG" asp-action="Delete" asp-route-id="@item.Id" class="btn p-0">
+                                        <a asp-area="Calculation" asp-controller="FixedCombustionLPG" asp-action="Delete" asp-route-id="@item.Id" class="btn p-0" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz? Devam etmek için Tamam, iptal etmek için İptal\'e tıklayın.');">
                                             <i class="bx bx-x"></i>
                                         </a>
                                     </td>

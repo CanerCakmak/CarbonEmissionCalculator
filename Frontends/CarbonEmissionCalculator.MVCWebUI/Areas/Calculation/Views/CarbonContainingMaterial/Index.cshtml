@@ -69,7 +69,7 @@
                                         <a asp-area="Calculation" asp-controller="CarbonContainingMaterial" asp-action="Detail" asp-route-id="@item.Id" class="btn p-0">
                                             <i class="bx bx-show"></i>
                                         </a>
-                                        <a asp-area="Calculation" asp-controller="CarbonContainingMaterial" asp-action="Delete" asp-route-id="@item.Id" class="btn p-0">
+                                        <a asp-area="Calculation" asp-controller="CarbonContainingMaterial" asp-action="Delete" asp-route-id="@item.Id" class="btn p-0" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz? Devam etmek için Tamam, iptal etmek için İptal\'e tıklayın.');">
                                             <i class="bx bx-x"></i>
                                         </a>
                                     </td>
