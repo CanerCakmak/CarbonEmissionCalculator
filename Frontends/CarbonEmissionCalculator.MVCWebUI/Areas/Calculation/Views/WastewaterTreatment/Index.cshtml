@@ -1,12 +1,9 @@
+@model IList<CarbonEmissionCalculator.Domain.Entities.WastewaterTreatmentCalculationGroup>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@model IList<WastewaterTreatmentCalculation>
 <div class="content-wrapper">
-    <!-- Content -->
-
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">Atık Su Arıtma</span>
@@ -17,26 +14,18 @@
                 <a class="btn btn-outline-primary" asp-area="Calculation" asp-controller="WastewaterTreatment" asp-action="Create">+Veri Ekle</a>
             </div>
         </h4>
-
-        <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">Veriler</h5>
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Firm Name</th>
-                            <th>Wastewater Volume</th>
-                            <th>COD Concentration</th>
-                            <th>BOD Concentration</th>
-                            <th>Total COD</th>
-                            <th>Total BOD</th>
-                            <th>CH4 Emission Factor</th>
-                            <th>CH4 GWP</th>
-                            <th>Total CH4</th>
-                            <th>Total CH4 CO2e</th>
-                            <th>Total CH4 CO2e (Ton)</th>
-                            <th>Actions</th>
+                            <th>Firma Adı</th>
+                            <th>Oluşturulma Tarihi</th>
+                            <th>Satır Sayısı</th>
+                            <th>Toplam Emisyon (kg CO₂e)</th>
+                            <th>Toplam Emisyon (Ton CO₂e)</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -46,16 +35,10 @@
                             {
                                 <tr>
                                     <td>@item.FirmName</td>
-                                    <td>@item.WastewaterVolume</td>
-                                    <td>@item.CODConcentration</td>
-                                    <td>@item.BODConcentration</td>
-                                    <td>@item.TotalCOD</td>
-                                    <td>@item.TotalBOD</td>
-                                    <td>@item.CH4EmissionFactor</td>
-                                    <td>@item.CH4GWP</td>
-                                    <td>@item.TotalCH4</td>
-                                    <td>@item.TotalCH4CO2e</td>
-                                    <td>@item.TotalCH4CO2eTon</td>
+                                    <td>@item.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                                    <td>@(item.Rows?.Count ?? 0)</td>
+                                    <td>@item.GrandTotalKg.ToString("F3")</td>
+                                    <td>@item.GrandTotalTon.ToString("F3")</td>
                                     <td>
                                         <a asp-area="Calculation" asp-controller="WastewaterTreatment" asp-action="Detail" asp-route-id="@item.Id" class="btn p-0">
                                             <i class="bx bx-show"></i>
@@ -70,15 +53,12 @@
                         else
                         {
                             <tr>
-                                <td colspan="12">
-                                    Veri Bulunamadı
-                                </td>
+                                <td colspan="6">Veri Bulunamadı</td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 </div> 
