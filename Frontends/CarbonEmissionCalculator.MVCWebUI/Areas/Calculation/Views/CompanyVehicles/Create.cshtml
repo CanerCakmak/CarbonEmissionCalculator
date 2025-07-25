@@ -15,10 +15,10 @@
     </div>
     <div class="card-body">
         <form id="companyVehiclesForm" method="post">
-            <div class="row">
-                <div class="col-md-12 mb-3">
-                    <label class="form-label">Firma İsmi</label>
-                    <div class="input-group">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Firma İsmi</label>
+                        <div class="input-group">
                         <input type="text" class="form-control" id="firmName" name="FirmName" required />
                     </div>
                 </div>
@@ -57,14 +57,14 @@
                 <div class="col">
                     <button type="button" id="addRowBtn" class="btn btn-outline-primary">Satır Ekle</button>
                 </div>
-            </div>
+        </div>
             <div class="row mt-3">
-                <div class="col">
+            <div class="col">
                     <button type="submit" class="btn btn-primary">Hesapla</button>
                     <button type="reset" class="btn btn-secondary">Temizle</button>
-                    <button type="submit" id="postToDb" class="btn btn-success" style="float:right;">Onayla Ve Kaydet</button>
-                </div>
+                <button type="submit" id="postToDb" class="btn btn-success" style="float:right;">Onayla Ve Kaydet</button>
             </div>
+        </div>
         </form>
     </div>
 </div>
@@ -94,9 +94,9 @@
             const efCO2 = parseFloat(row.find('.ef-co2').val().replace(',', '.')) || 0;
             const efCH4 = parseFloat(row.find('.ef-ch4').val().replace(',', '.')) || 0;
             const efN2O = parseFloat(row.find('.ef-n2o').val().replace(',', '.')) || 0;
-            const emissionCO2 = distance * efCO2;
-            const emissionCH4 = distance * efCH4;
-            const emissionN2O = distance * efN2O;
+                const emissionCO2 = distance * efCO2;
+                const emissionCH4 = distance * efCH4;
+                const emissionN2O = distance * efN2O;
             row.find('.emission-co2').val(emissionCO2.toFixed(6));
             row.find('.emission-ch4').val(emissionCH4.toFixed(6));
             row.find('.emission-n2o').val(emissionN2O.toFixed(6));

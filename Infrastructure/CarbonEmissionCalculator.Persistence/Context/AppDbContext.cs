@@ -21,10 +21,14 @@ namespace CarbonEmissionCalculator.Persistence.Context
         public DbSet<MobileOnRoadGasolineCalculation> MobileOnRoadGasolineCalculations { get; set; }
         public DbSet<MobileOnRoadLPGCalculation> MobileOnRoadLPGCalculations { get; set; }
         public DbSet<CarbonContainingMaterialCalculation> CarbonContainingMaterialCalculations { get; set; }
+        public DbSet<CarbonContainingMaterialCalculationGroup> CarbonContainingMaterialCalculationGroups { get; set; }
+        public DbSet<CarbonContainingMaterialCalculationRow> CarbonContainingMaterialCalculationRows { get; set; }
         public DbSet<ElectricityCalculation> ElectricityCalculations { get; set; }
         public DbSet<CompanyVehiclesCalculation> CompanyVehiclesCalculations { get; set; }
         public DbSet<RefrigerantGasesCalculation> RefrigerantGasesCalculations { get; set; }
         public DbSet<WastewaterTreatmentCalculation> WastewaterTreatmentCalculations { get; set; }
+        public DbSet<WastewaterTreatmentCalculationGroup> WastewaterTreatmentCalculationGroups { get; set; }
+        public DbSet<WastewaterTreatmentCalculationRow> WastewaterTreatmentCalculationRows { get; set; }
         public DbSet<RefrigerantGasesCalculationGroup> RefrigerantGasesCalculationGroups { get; set; }
 
         #endregion

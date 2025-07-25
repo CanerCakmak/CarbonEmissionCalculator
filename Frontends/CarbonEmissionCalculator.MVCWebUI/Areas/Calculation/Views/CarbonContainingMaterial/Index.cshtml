@@ -1,11 +1,9 @@
-﻿@{
+﻿@model IList<CarbonEmissionCalculator.Domain.Entities.CarbonContainingMaterialCalculationGroup>
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model IList<CarbonContainingMaterialCalculation>
 <div class="content-wrapper">
-    <!-- Content -->
-
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">Karbon İçeren Malzemeler</span>
@@ -16,8 +14,6 @@
                 <a class="btn btn-outline-primary" asp-area="Calculation" asp-controller="CarbonContainingMaterial" asp-action="Create">+Veri Ekle</a>
             </div>
         </h4>
-
-        <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">Veriler</h5>
             <div class="table-responsive text-nowrap">
@@ -25,46 +21,24 @@
                     <thead>
                         <tr>
                             <th>Firma Adı</th>
-                            <th>
-                                (Hammadde)Faaliyet Verisi (ton)
-                            </th>
-                            <th>(Hammadde)Karbon Oranı (%)</th>
-                            <th>(Hammadde)Karbon Miktarı(ton)
-                            <th>
-                            <th>(Son Ürün)Faaliyet Verisi (ton)</th>
-                            <th>(Son Ürün)Karbon Oranı (%)</th>
-                            <th>(Son Ürün)Karbon Miktarı(ton)
-                            <th>
-                            <th>
-                                Dönüşüm Faktörü(Ton CO2/Ton C)
-                            </th>
-                            <th>
-                                Toplam Emisyon(kg CO2e)
-                            </th>
-                            <th>
-                                Toplam Emisyon(Ton CO2e)
-                            </th>
-                            <th>Actions</th>
+                            <th>Oluşturulma Tarihi</th>
+                            <th>Satır Sayısı</th>
+                            <th>Toplam Emisyon (kg CO₂e)</th>
+                            <th>Toplam Emisyon (Ton CO₂e)</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
                         @if (Model.Any())
                         {
-
-
                             @foreach (var item in Model)
                             {
                                 <tr>
                                     <td>@item.FirmName</td>
-                                    <td>@item.RawMaterialActivity1</td>
-                                    <td>@item.RawMaterialCarbon1</td>
-                                    <td>@item.RawMaterialCarbonAmount1</td>
-                                    <td>@item.FinalProductActivity1</td>
-                                    <td>@item.FinalProductCarbon1</td>
-                                    <td>@item.FinalProductCarbonAmount1</td>
-                                    <td>@item.ConversionFactor1</td>
-                                    <td>@item.TotalEmissionKg1</td>
-                                    <td>@item.TotalEmissionTon1</td>
+                                    <td>@item.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                                    <td>@(item.Rows?.Count ?? 0)</td>
+                                    <td>@item.GrandTotalKg.ToString("F3")</td>
+                                    <td>@item.GrandTotalTon.ToString("F3")</td>
                                     <td>
                                         <a asp-area="Calculation" asp-controller="CarbonContainingMaterial" asp-action="Detail" asp-route-id="@item.Id" class="btn p-0">
                                             <i class="bx bx-show"></i>
@@ -79,16 +53,13 @@
                         else
                         {
                             <tr>
-                                <td>
-                                    Veri Bulunamadı
-                                </td>
+                                <td colspan="6">Veri Bulunamadı</td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 </div>
 

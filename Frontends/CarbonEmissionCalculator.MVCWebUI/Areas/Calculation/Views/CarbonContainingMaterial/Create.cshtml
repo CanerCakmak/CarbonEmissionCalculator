@@ -1,23 +1,13 @@
-﻿@using CarbonEmissionCalculator.Domain.Entities
-@model CarbonContainingMaterialCalculation
-
+﻿@model CarbonEmissionCalculator.MVCWebUI.Models.CarbonContainingMaterialCreateViewModel
 @{
     ViewData["Title"] = "Karbon İçerikli Hammadde Prosesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <style>
-    .table td input {
-        min-width: 120px;
-    }
-
-    /* Emisyon kolonları için genişletilmiş input alanları */
+    .table td input { min-width: 120px; }
     .table td:nth-child(9) input,
-    .table td:nth-child(10) input {
-        min-width: 150px;
-    }
+    .table td:nth-child(10) input { min-width: 150px; }
 </style>
-
 <div class="card">
     <div class="card-header bg-white d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Karbon İçerikli Hammadde Prosesi</h5>
@@ -26,17 +16,17 @@
         </a>
     </div>
     <div class="card-body">
-        <div class="table-responsive text-nowrap">
-            <form id="carbonMaterialForm" method="post" asp-area="Calculation" asp-controller="CarbonContainingMaterial" asp-action="Create">
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <label class="form-label">Firma İsmi</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="firmName" asp-for="FirmName" required />
-                        </div>
+        <form id="carbonMaterialForm" method="post" asp-area="Calculation" asp-controller="CarbonContainingMaterial" asp-action="Create">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <label class="form-label">Firma İsmi</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="FirmName" value="@Model.FirmName" required />
                     </div>
                 </div>
-                <table class="table table-bordered">
+            </div>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-bordered" id="carbonMaterialTable">
                     <thead>
                         <tr class="text-center bg-light">
                             <th colspan="3">Hammadde</th>
@@ -44,6 +34,7 @@
                             <th>Hammadde - Son Ürün</th>
                             <th>Dönüşüm Faktörü</th>
                             <th colspan="2">Toplam Emisyon</th>
+                            <th></th>
                         </tr>
                         <tr class="text-center bg-light">
                             <th>Faaliyet Verisi (ton)</th>
@@ -56,183 +47,91 @@
                             <th>Ton CO₂/Ton C</th>
                             <th>kg CO₂e</th>
                             <th>Ton CO₂e</th>
+                            <th>İşlem</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="number" class="form-control text-end" id="rawMaterialActivity1" step="0.001" min="0"></td>
-                            <td><input type="number" class="form-control text-end" id="rawMaterialCarbon1" step="0.01" min="0" max="100"></td>
-                            <td><input type="number" class="form-control text-end" id="rawMaterialCarbonAmount1" readonly></td>
-                            <td><input type="number" class="form-control text-end" id="finalProductActivity1" step="0.001" min="0"></td>
-                            <td><input type="number" class="form-control text-end" id="finalProductCarbon1" step="0.01" min="0" max="100"></td>
-                            <td><input type="number" class="form-control text-end" id="finalProductCarbonAmount1" readonly></td>
-                            <td><input type="number" class="form-control text-end" id="totalCarbon1" readonly></td>
-                            <td><input type="number" class="form-control text-end" id="conversionFactor1" value="3.664" step="0.001" min="0"></td>
-                            <td><input type="number" class="form-control text-end" id="totalEmissionKg1" readonly></td>
-                            <td><input type="number" class="form-control text-end" id="totalEmissionTon1" readonly></td>
-                        </tr>
-                        <tr>
-                            <td><input type="number" class="form-control text-end" id="rawMaterialActivity2" step="0.001" min="0"></td>
-                            <td><input type="number" class="form-control text-end" id="rawMaterialCarbon2" step="0.01" min="0" max="100"></td>
-                            <td><input type="number" class="form-control text-end" id="rawMaterialCarbonAmount2" readonly></td>
-                            <td><input type="number" class="form-control text-end" id="finalProductActivity2" step="0.001" min="0"></td>
-                            <td><input type="number" class="form-control text-end" id="finalProductCarbon2" step="0.01" min="0" max="100"></td>
-                            <td><input type="number" class="form-control text-end" id="finalProductCarbonAmount2" readonly></td>
-                            <td><input type="number" class="form-control text-end" id="totalCarbon2" readonly></td>
-                            <td><input type="number" class="form-control text-end" id="conversionFactor2" value="3.664" step="0.001" min="0"></td>
-                            <td><input type="number" class="form-control text-end" id="totalEmissionKg2" readonly></td>
-                            <td><input type="number" class="form-control text-end" id="totalEmissionTon2" readonly></td>
-                        </tr>
-                        <tr class="bg-light">
-                            <td colspan="8" class="text-end fw-bold">TOPLAM</td>
-                            <td><input type="number" class="form-control text-end" id="grandTotalKg" readonly></td>
-                            <td><input type="number" class="form-control text-end" id="grandTotalTon" readonly></td>
-                        </tr>
+                    <tbody id="carbonMaterialRows">
+                        @if (Model.Rows != null && Model.Rows.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Rows.Count; i++)
+                            {
+                                <tr>
+                                    <td><input type="number" class="form-control text-end" name="Rows[@i].RawMaterialActivity" step="0.001" min="0" value="@Model.Rows[i].RawMaterialActivity" /></td>
+                                    <td><input type="number" class="form-control text-end" name="Rows[@i].RawMaterialCarbon" step="0.01" min="0" max="100" value="@Model.Rows[i].RawMaterialCarbon" /></td>
+                                    <td><input type="number" class="form-control text-end" name="Rows[@i].RawMaterialCarbonAmount" readonly value="@Model.Rows[i].RawMaterialCarbonAmount" /></td>
+                                    <td><input type="number" class="form-control text-end" name="Rows[@i].FinalProductActivity" step="0.001" min="0" value="@Model.Rows[i].FinalProductActivity" /></td>
+                                    <td><input type="number" class="form-control text-end" name="Rows[@i].FinalProductCarbon" step="0.01" min="0" max="100" value="@Model.Rows[i].FinalProductCarbon" /></td>
+                                    <td><input type="number" class="form-control text-end" name="Rows[@i].FinalProductCarbonAmount" readonly value="@Model.Rows[i].FinalProductCarbonAmount" /></td>
+                                    <td><input type="number" class="form-control text-end" name="Rows[@i].TotalCarbon" readonly value="@Model.Rows[i].TotalCarbon" /></td>
+                                    <td><input type="number" class="form-control text-end" name="Rows[@i].ConversionFactor" step="0.001" min="0" value="@Model.Rows[i].ConversionFactor" /></td>
+                                    <td><input type="number" class="form-control text-end" name="Rows[@i].TotalEmissionKg" readonly value="@Model.Rows[i].TotalEmissionKg" /></td>
+                                    <td><input type="number" class="form-control text-end" name="Rows[@i].TotalEmissionTon" readonly value="@Model.Rows[i].TotalEmissionTon" /></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm remove-row">Sil</button></td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
-                
-                <!-- Hidden inputs for form submission -->
-                <input type="hidden" asp-for="FirmName" id="hiddenFirmName" />
-                <input type="hidden" asp-for="RawMaterialActivity1" id="hiddenRawMaterialActivity1" />
-                <input type="hidden" asp-for="RawMaterialCarbon1" id="hiddenRawMaterialCarbon1" />
-                <input type="hidden" asp-for="RawMaterialCarbonAmount1" id="hiddenRawMaterialCarbonAmount1" />
-                <input type="hidden" asp-for="FinalProductActivity1" id="hiddenFinalProductActivity1" />
-                <input type="hidden" asp-for="FinalProductCarbon1" id="hiddenFinalProductCarbon1" />
-                <input type="hidden" asp-for="FinalProductCarbonAmount1" id="hiddenFinalProductCarbonAmount1" />
-                <input type="hidden" asp-for="ConversionFactor1" id="hiddenConversionFactor1" />
-                <input type="hidden" asp-for="TotalCarbon1" id="hiddenTotalCarbon1" />
-                <input type="hidden" asp-for="TotalEmissionKg1" id="hiddenTotalEmissionKg1" />
-                <input type="hidden" asp-for="TotalEmissionTon1" id="hiddenTotalEmissionTon1" />
-                
-                <input type="hidden" asp-for="RawMaterialActivity2" id="hiddenRawMaterialActivity2" />
-                <input type="hidden" asp-for="RawMaterialCarbon2" id="hiddenRawMaterialCarbon2" />
-                <input type="hidden" asp-for="RawMaterialCarbonAmount2" id="hiddenRawMaterialCarbonAmount2" />
-                <input type="hidden" asp-for="FinalProductActivity2" id="hiddenFinalProductActivity2" />
-                <input type="hidden" asp-for="FinalProductCarbon2" id="hiddenFinalProductCarbon2" />
-                <input type="hidden" asp-for="FinalProductCarbonAmount2" id="hiddenFinalProductCarbonAmount2" />
-                <input type="hidden" asp-for="ConversionFactor2" id="hiddenConversionFactor2" />
-                <input type="hidden" asp-for="TotalCarbon2" id="hiddenTotalCarbon2" />
-                <input type="hidden" asp-for="TotalEmissionKg2" id="hiddenTotalEmissionKg2" />
-                <input type="hidden" asp-for="TotalEmissionTon2" id="hiddenTotalEmissionTon2" />
-                
-                <input type="hidden" asp-for="GrandTotalKg" id="hiddenGrandTotalKg" />
-                <input type="hidden" asp-for="GrandTotalTon" id="hiddenGrandTotalTon" />
-                
-        <div class="row mt-4">
-            <div class="col">
-                <button type="button" class="btn btn-primary" onclick="calculateEmissions()">
-                    <i class="fas fa-calculator me-2"></i>Hesapla
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="resetForm()">
-                    <i class="fas fa-undo me-2"></i>Sıfırla
-                </button>
-
-                        <button type="submit" id="postToDb" class="btn btn-success" style="float:right;" onclick="console.log('Submit button clicked')">Onayla Ve Kaydet</button>
+                <button type="button" class="btn btn-outline-primary" id="addRowBtn">+ Satır Ekle</button>
             </div>
-        </div>
-            </form>
+            <div class="row mt-4">
+                <div class="col">
+                    <button type="submit" class="btn btn-success" style="float:right;">Onayla Ve Kaydet</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
-
 @section Scripts {
-    <script>
-        function calculateEmissions() {
-            let totalEmissionKgSum = 0;
-            let totalEmissionTonSum = 0;
+<script>
+    let rowIdx = @Model.Rows?.Count ?? 0;
+    function createRow(idx) {
+        return `<tr>
+            <td><input type="number" class="form-control text-end" name="Rows[${idx}].RawMaterialActivity" step="0.001" min="0" /></td>
+            <td><input type="number" class="form-control text-end" name="Rows[${idx}].RawMaterialCarbon" step="0.01" min="0" max="100" /></td>
+            <td><input type="number" class="form-control text-end" name="Rows[${idx}].RawMaterialCarbonAmount" readonly /></td>
+            <td><input type="number" class="form-control text-end" name="Rows[${idx}].FinalProductActivity" step="0.001" min="0" /></td>
+            <td><input type="number" class="form-control text-end" name="Rows[${idx}].FinalProductCarbon" step="0.01" min="0" max="100" /></td>
+            <td><input type="number" class="form-control text-end" name="Rows[${idx}].FinalProductCarbonAmount" readonly /></td>
+            <td><input type="number" class="form-control text-end" name="Rows[${idx}].TotalCarbon" readonly /></td>
+            <td><input type="number" class="form-control text-end" name="Rows[${idx}].ConversionFactor" step="0.001" min="0" value="3.664" /></td>
+            <td><input type="number" class="form-control text-end" name="Rows[${idx}].TotalEmissionKg" readonly /></td>
+            <td><input type="number" class="form-control text-end" name="Rows[${idx}].TotalEmissionTon" readonly /></td>
+            <td><button type="button" class="btn btn-danger btn-sm remove-row">Sil</button></td>
+        </tr>`;
+    }
+    $(document).on('click', '#addRowBtn', function () {
+        $('#carbonMaterialRows').append(createRow(rowIdx));
+        rowIdx++;
+    });
+    $(document).on('click', '.remove-row', function () {
+        $(this).closest('tr').remove();
+    });
+    // Otomatik hesaplama ve readonly alanları doldurma
+    $(document).on('input', '#carbonMaterialRows input[type=number]', function () {
+        $('#carbonMaterialRows tr').each(function () {
+            const row = $(this);
+            // Inputları bul
+            const rawMaterialActivity = parseFloat(row.find('input[name*="RawMaterialActivity"]').val()) || 0;
+            const rawMaterialCarbon = parseFloat(row.find('input[name*="RawMaterialCarbon"]').val()) || 0;
+            const finalProductActivity = parseFloat(row.find('input[name*="FinalProductActivity"]').val()) || 0;
+            const finalProductCarbon = parseFloat(row.find('input[name*="FinalProductCarbon"]').val()) || 0;
+            const conversionFactor = parseFloat(row.find('input[name*="ConversionFactor"]').val()) || 0;
 
-            // Calculate for both rows
-            for (let i = 1; i <= 2; i++) {
-                // Get input values
-                const rawMaterialActivity = parseFloat(document.getElementById('rawMaterialActivity' + i).value.replace(',', '.')) || 0;
-                const rawMaterialCarbon = parseFloat(document.getElementById('rawMaterialCarbon' + i).value.replace(',', '.')) || 0;
-                const finalProductActivity = parseFloat(document.getElementById('finalProductActivity' + i).value.replace(',', '.')) || 0;
-                const finalProductCarbon = parseFloat(document.getElementById('finalProductCarbon' + i).value.replace(',', '.')) || 0;
-                const conversionFactor = parseFloat(document.getElementById('conversionFactor' + i).value.replace(',', '.'));
+            // Hesaplamalar
+            const rawMaterialCarbonAmount = rawMaterialActivity * rawMaterialCarbon / 100;
+            const finalProductCarbonAmount = finalProductActivity * finalProductCarbon / 100;
+            const totalCarbon = rawMaterialCarbonAmount - finalProductCarbonAmount;
+            const totalEmissionTon = totalCarbon * conversionFactor;
+            const totalEmissionKg = totalEmissionTon * 1000;
 
-                // Calculate carbon amounts
-                const rawMaterialCarbonAmount = rawMaterialActivity * rawMaterialCarbon;
-                const finalProductCarbonAmount = finalProductActivity * finalProductCarbon;
-
-                // Calculate total carbon
-                const totalCarbon = rawMaterialCarbonAmount - finalProductCarbonAmount;
-
-                // Calculate emissions
-                const totalEmissionTon = totalCarbon * conversionFactor; // Ton CO₂
-                const totalEmissionKg = totalEmissionTon * 1000; // Convert to kg CO₂
-
-                // Update readonly fields with formatted numbers
-                document.getElementById('rawMaterialCarbonAmount' + i).value = rawMaterialCarbonAmount.toFixed(3);
-                document.getElementById('finalProductCarbonAmount' + i).value = finalProductCarbonAmount.toFixed(3);
-                document.getElementById('totalCarbon' + i).value = totalCarbon.toFixed(3);
-                document.getElementById('totalEmissionKg' + i).value = totalEmissionKg.toFixed(3);
-                document.getElementById('totalEmissionTon' + i).value = totalEmissionTon.toFixed(3);
-
-                // Add to totals
-                totalEmissionKgSum += totalEmissionKg;
-                totalEmissionTonSum += totalEmissionTon;
-            }
-
-            // Update grand totals
-            document.getElementById('grandTotalKg').value = totalEmissionKgSum.toFixed(3);
-            document.getElementById('grandTotalTon').value = totalEmissionTonSum.toFixed(3);
-        }
-
-        function resetForm() {
-            document.getElementById('carbonMaterialForm').reset();
-            const readonlyFields = [
-                'rawMaterialCarbonAmount1', 'finalProductCarbonAmount1', 'totalCarbon1', 'totalEmissionKg1', 'totalEmissionTon1',
-                'rawMaterialCarbonAmount2', 'finalProductCarbonAmount2', 'totalCarbon2', 'totalEmissionKg2', 'totalEmissionTon2',
-                'grandTotalKg', 'grandTotalTon'
-            ];
-            readonlyFields.forEach(field => {
-                document.getElementById(field).value = '';
-            });
-        }
-
-        // Add input event listeners for automatic calculation
-        const inputFields = [
-            'rawMaterialActivity1', 'rawMaterialCarbon1', 'finalProductActivity1', 'finalProductCarbon1', 'conversionFactor1',
-            'rawMaterialActivity2', 'rawMaterialCarbon2', 'finalProductActivity2', 'finalProductCarbon2', 'conversionFactor2'
-        ];
-        inputFields.forEach(field => {
-            document.getElementById(field).addEventListener('input', calculateEmissions);
+            // Sonuçları yaz
+            row.find('input[name*="RawMaterialCarbonAmount"]').val(rawMaterialCarbonAmount.toFixed(3));
+            row.find('input[name*="FinalProductCarbonAmount"]').val(finalProductCarbonAmount.toFixed(3));
+            row.find('input[name*="TotalCarbon"]').val(totalCarbon.toFixed(3));
+            row.find('input[name*="TotalEmissionKg"]').val(totalEmissionKg.toFixed(3));
+            row.find('input[name*="TotalEmissionTon"]').val(totalEmissionTon.toFixed(3));
         });
-
-        // Form submit handler
-        document.getElementById('carbonMaterialForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            console.log('Form submit triggered');
-            
-            // Update hidden inputs with current values
-            document.getElementById('hiddenFirmName').value = document.getElementById('firmName').value;
-            document.getElementById('hiddenRawMaterialActivity1').value = document.getElementById('rawMaterialActivity1').value;
-            document.getElementById('hiddenRawMaterialCarbon1').value = document.getElementById('rawMaterialCarbon1').value;
-            document.getElementById('hiddenRawMaterialCarbonAmount1').value = document.getElementById('rawMaterialCarbonAmount1').value;
-            document.getElementById('hiddenFinalProductActivity1').value = document.getElementById('finalProductActivity1').value;
-            document.getElementById('hiddenFinalProductCarbon1').value = document.getElementById('finalProductCarbon1').value;
-            document.getElementById('hiddenFinalProductCarbonAmount1').value = document.getElementById('finalProductCarbonAmount1').value;
-            document.getElementById('hiddenConversionFactor1').value = document.getElementById('conversionFactor1').value;
-            document.getElementById('hiddenTotalCarbon1').value = document.getElementById('totalCarbon1').value;
-            document.getElementById('hiddenTotalEmissionKg1').value = document.getElementById('totalEmissionKg1').value;
-            document.getElementById('hiddenTotalEmissionTon1').value = document.getElementById('totalEmissionTon1').value;
-            
-            document.getElementById('hiddenRawMaterialActivity2').value = document.getElementById('rawMaterialActivity2').value;
-            document.getElementById('hiddenRawMaterialCarbon2').value = document.getElementById('rawMaterialCarbon2').value;
-            document.getElementById('hiddenRawMaterialCarbonAmount2').value = document.getElementById('rawMaterialCarbonAmount2').value;
-            document.getElementById('hiddenFinalProductActivity2').value = document.getElementById('finalProductActivity2').value;
-            document.getElementById('hiddenFinalProductCarbon2').value = document.getElementById('finalProductCarbon2').value;
-            document.getElementById('hiddenFinalProductCarbonAmount2').value = document.getElementById('finalProductCarbonAmount2').value;
-            document.getElementById('hiddenConversionFactor2').value = document.getElementById('conversionFactor2').value;
-            document.getElementById('hiddenTotalCarbon2').value = document.getElementById('totalCarbon2').value;
-            document.getElementById('hiddenTotalEmissionKg2').value = document.getElementById('totalEmissionKg2').value;
-            document.getElementById('hiddenTotalEmissionTon2').value = document.getElementById('totalEmissionTon2').value;
-            
-            // Add grand totals
-            document.getElementById('hiddenGrandTotalKg').value = document.getElementById('grandTotalKg').value;
-            document.getElementById('hiddenGrandTotalTon').value = document.getElementById('grandTotalTon').value;
-            
-            // Submit the form
-            this.submit();
-        });
-    </script>
+    });
+</script>
 }
