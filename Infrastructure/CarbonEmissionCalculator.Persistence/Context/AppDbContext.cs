@@ -30,6 +30,7 @@ namespace CarbonEmissionCalculator.Persistence.Context
         public DbSet<WastewaterTreatmentCalculationGroup> WastewaterTreatmentCalculationGroups { get; set; }
         public DbSet<WastewaterTreatmentCalculationRow> WastewaterTreatmentCalculationRows { get; set; }
         public DbSet<RefrigerantGasesCalculationGroup> RefrigerantGasesCalculationGroups { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         #endregion
 

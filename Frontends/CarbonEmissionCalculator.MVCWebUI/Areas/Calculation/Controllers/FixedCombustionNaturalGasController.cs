@@ -1,7 +1,10 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
 using CarbonEmissionCalculator.Domain.Entities;
+using CarbonEmissionCalculator.MVCWebUI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
 {
@@ -10,16 +13,18 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomMapper _customMapper;
+        private readonly CompanyService _companyService;
 
-        public FixedCombustionNaturalGasController(IUnitOfWork unitOfWork, ICustomMapper customMapper)
+        public FixedCombustionNaturalGasController(IUnitOfWork unitOfWork, ICustomMapper customMapper, CompanyService companyService)
         {
             _unitOfWork = unitOfWork;
             _customMapper = customMapper;
+            _companyService = companyService;
         }
 
         public async Task<IActionResult> Index()
         {
-            IList<FixedCombustionNaturalGasCalculation> values = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAllAsync();
+            IList<FixedCombustionNaturalGasCalculation> values = await _unitOfWork.GetReadRepository<FixedCombustionNaturalGasCalculation>().GetAllAsync(include:v=> v.Include(v=>v.Company));
 
             return View(values);
         }
@@ -30,13 +35,16 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return View(value);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.CompanyList = await _companyService.GetCompanyListForDropdownAsync();
+
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Create(FixedCombustionNaturalGasCalculation calc)
         {
+
             await _unitOfWork.GetWriteRepository<FixedCombustionNaturalGasCalculation>().AddAsync(calc);
             await _unitOfWork.SaveAsync();
 

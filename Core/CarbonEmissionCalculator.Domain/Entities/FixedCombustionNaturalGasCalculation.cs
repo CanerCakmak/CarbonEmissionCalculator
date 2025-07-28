@@ -22,6 +22,8 @@ namespace CarbonEmissionCalculator.Domain.Entities
         public double TotalN2O { get; set; }
         public double TotalCO2e { get; set; }
         public double TotalCO2eTon { get; set; }
-        
+
+        public int CompanyId { get; set; }
+        public Company Company { get; set; }
     }
 }

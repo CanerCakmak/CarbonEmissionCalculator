@@ -21,7 +21,16 @@
                 <div class="col-md-12">
                     <label class="form-label">Firma İsmi</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" name="FirmName" value="@Model.FirmName" required />
+                        <select class="form-select" asp-for="CompanyId" name="CompanyId" id="CompanyId" required>
+                            <option value="">Lütfen Firma Seçiniz</option>
+                            @if (ViewBag.CompanyList != null)
+                            {
+                                foreach (var company in ViewBag.CompanyList)
+                                {
+                                    <option value="@company.Value">@company.Text</option>
+                                }
+                            }
+                        </select>
                     </div>
                 </div>
             </div>

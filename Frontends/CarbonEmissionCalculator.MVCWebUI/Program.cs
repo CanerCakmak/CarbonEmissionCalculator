@@ -3,8 +3,10 @@ using CarbonEmissionCalculator.CustomMapper;
 using CarbonEmissionCalculator.Persistence;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using CarbonEmissionCalculator.MVCWebUI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<CompanyService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -28,6 +30,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     //     return new ProviderCultureResult("en-US");
     // }));
 });
+
 
 #region EnvironmentBasedJson
 IWebHostEnvironment env = builder.Environment;

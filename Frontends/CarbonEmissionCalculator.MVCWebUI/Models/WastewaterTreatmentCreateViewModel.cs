@@ -8,6 +8,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Models
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }
         public string FirmName { get; set; }
+        public int CompanyId { get; set; }
         public List<WastewaterTreatmentRow> Rows { get; set; }
     }
 } 

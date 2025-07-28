@@ -1,8 +1,9 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
 using CarbonEmissionCalculator.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
 using CarbonEmissionCalculator.MVCWebUI.Models;
+using CarbonEmissionCalculator.MVCWebUI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
@@ -12,15 +13,17 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomMapper _customMapper;
+        private readonly CompanyService _companyService;
 
-        public RefrigerantGasesController(IUnitOfWork unitOfWork, ICustomMapper customMapper)
+        public RefrigerantGasesController(IUnitOfWork unitOfWork, ICustomMapper customMapper, CompanyService companyService)
         {
             _unitOfWork = unitOfWork;
             _customMapper = customMapper;
+            _companyService = companyService;
         }
         public async Task<IActionResult> Index()
         {
-            IList<RefrigerantGasesCalculationGroup> values = await _unitOfWork.GetReadRepository<RefrigerantGasesCalculationGroup>().GetAllAsync(include: x=> x.Include(x=> x.Rows));
+            IList<RefrigerantGasesCalculationGroup> values = await _unitOfWork.GetReadRepository<RefrigerantGasesCalculationGroup>().GetAllAsync(include: x=> x.Include(x=> x.Rows).Include(x => x.Company));
 
             return View(values);
         }
@@ -30,8 +33,9 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return View(group);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.CompanyList = await _companyService.GetCompanyListForDropdownAsync();
             return View();
         }
         [HttpPost]
@@ -40,7 +44,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             var group = new RefrigerantGasesCalculationGroup
             {
                 FirmName = model.FirmName,
-                CreatedAt = DateTime.Now,
+                CompanyId = model.CompanyId,
                 Rows = new List<RefrigerantGasesCalculation>()
             };
             await _unitOfWork.GetWriteRepository<RefrigerantGasesCalculationGroup>().AddAsync(group);

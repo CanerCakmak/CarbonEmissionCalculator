@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Şirket Araçları - Binek ve Yük Araçları";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var aracTurleri = new[] { "Küçük Araç", "Orta Araç", "Büyük Araç", "Ortalama Araç", "Kamyonet", "Ağır Yük Taşıtı"};
+    var aracTurleri = new[] { "Küçük Araç", "Orta Araç", "Büyük Araç", "Ortalama Araç", "Kamyonet", "Ağır Yük Taşıtı" };
     var yakitTurleri = new[] { "Dizel", "Benzin", "LPG", "Bilinmeyen", "100% Yüklü", "Ortalama Yüklü" };
 }
 <div class="card">
@@ -15,11 +15,20 @@
     </div>
     <div class="card-body">
         <form id="companyVehiclesForm" method="post">
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <label class="form-label">Firma İsmi</label>
-                        <div class="input-group">
-                        <input type="text" class="form-control" id="firmName" name="FirmName" required />
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Firma İsmi</label>
+                    <div class="input-group">
+                        <select class="form-select" asp-for="CompanyId" name="CompanyId" id="CompanyId" required>
+                            <option value="">Lütfen Firma Seçiniz</option>
+                            @if (ViewBag.CompanyList != null)
+                            {
+                                foreach (var company in ViewBag.CompanyList)
+                                {
+                                    <option value="@company.Value">@company.Text</option>
+                                }
+                            }
+                        </select>
                     </div>
                 </div>
             </div>
@@ -57,14 +66,14 @@
                 <div class="col">
                     <button type="button" id="addRowBtn" class="btn btn-outline-primary">Satır Ekle</button>
                 </div>
-        </div>
+            </div>
             <div class="row mt-3">
-            <div class="col">
+                <div class="col">
                     <button type="submit" class="btn btn-primary">Hesapla</button>
                     <button type="reset" class="btn btn-secondary">Temizle</button>
-                <button type="submit" id="postToDb" class="btn btn-success" style="float:right;">Onayla Ve Kaydet</button>
+                    <button type="submit" id="postToDb" class="btn btn-success" style="float:right;">Onayla Ve Kaydet</button>
+                </div>
             </div>
-        </div>
         </form>
     </div>
 </div>

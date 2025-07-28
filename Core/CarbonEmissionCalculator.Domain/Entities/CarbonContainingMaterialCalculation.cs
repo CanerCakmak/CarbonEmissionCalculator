@@ -4,7 +4,6 @@ namespace CarbonEmissionCalculator.Domain.Entities
 {
     public class CarbonContainingMaterialCalculation : BaseEntity
     {
-        public string FirmName { get; set; }
         public double RawMaterialActivity1 { get; set; }
         public double RawMaterialCarbon1 { get; set; }
         public double RawMaterialCarbonAmount1 { get; set; }

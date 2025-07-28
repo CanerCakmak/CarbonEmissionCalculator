@@ -1,17 +1,28 @@
-using CarbonEmissionCalculator.MVCWebUI.Models;
+using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
+using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
+using CarbonEmissionCalculator.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarbonEmissionCalculator.MVCWebUI.Controllers
 {
     public class CompanyController : Controller
     {
-        private static List<Company> _companies = new List<Company>();
-        private static int _nextId = 1;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICustomMapper _customMapper;
 
-        public IActionResult Index()
+        public CompanyController(IUnitOfWork unitOfWork, ICustomMapper customMapper)
         {
-            return View(_companies);
+            _unitOfWork = unitOfWork;
+            _customMapper = customMapper;
+        }
+
+
+        public async Task<IActionResult> Index()
+        {
+            var values = await _unitOfWork.GetReadRepository<Company>().GetAllAsync();
+
+            return View(values);
         }
 
         public IActionResult Create()
@@ -22,39 +33,29 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
         [HttpPost]
         public IActionResult Create(Company company)
         {
-            if (string.IsNullOrWhiteSpace(company.Name))
-            {
-                ModelState.AddModelError("Name", "Firma adı zorunludur");
-                return View(company);
-            }
+            _unitOfWork.GetWriteRepository<Company>().AddAsync(company);
+            _unitOfWork.SaveAsync();
 
-            company.Id = _nextId++;
-            _companies.Add(company);
-            
-            // Firma seçildi olarak işaretle
-            HttpContext.Session.SetInt32("SelectedCompanyId", company.Id);
-            HttpContext.Session.SetString("SelectedCompanyName", company.Name);
-            
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Select(int id)
+        public IActionResult Update(int id)
         {
-            var company = _companies.Find(c => c.Id == id);
-            if (company != null)
-            {
-                HttpContext.Session.SetInt32("SelectedCompanyId", company.Id);
-                HttpContext.Session.SetString("SelectedCompanyName", company.Name);
-                return RedirectToAction("Index", "Home");
-            }
+
             return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+        public IActionResult Update(Company company)
+        {
+
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Clear()
         {
-            HttpContext.Session.Remove("SelectedCompanyId");
-            HttpContext.Session.Remove("SelectedCompanyName");
+
             return RedirectToAction(nameof(Index));
         }
     }
-} 
+}

@@ -12,6 +12,5 @@ namespace CarbonEmissionCalculator.Domain.Entities
         public double TonCO2e { get; set; }
         public int GroupId { get; set; }
         public WastewaterTreatmentCalculationGroup Group { get; set; }
-        public string FirmName { get; set; }
     }
 } 

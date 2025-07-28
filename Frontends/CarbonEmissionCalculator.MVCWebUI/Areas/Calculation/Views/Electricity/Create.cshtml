@@ -26,9 +26,19 @@
         <form method="post">
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label asp-for="FirmName" class="form-label">Firma Adı</label>
-                    <input asp-for="FirmName" class="form-control" />
-                    <span asp-validation-for="FirmName" class="text-danger"></span>
+                    <label class="form-label">Firma İsmi</label>
+                    <div class="input-group">
+                        <select class="form-select" asp-for="CompanyId" name="CompanyId" id="CompanyId" required>
+                            <option value="">Lütfen Firma Seçiniz</option>
+                            @if (ViewBag.CompanyList != null)
+                            {
+                                foreach (var company in ViewBag.CompanyList)
+                                {
+                                    <option value="@company.Value">@company.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label asp-for="Country" class="form-label">Ülke</label>
@@ -49,7 +59,7 @@
                 <div class="col-md-6 mb-3">
                     <label asp-for="EmissionFactor" class="form-label">Emisyon Faktörü (ton CO2/mWh)</label>
                     <div class="input-group">
-                        <input asp-for="EmissionFactor" class="form-control" type="number" step="0.001" value="0.442"/>
+                        <input asp-for="EmissionFactor" class="form-control" type="number" step="0.001" value="0.442" />
                         <span class="input-group-text">ton CO2/mWh</span>
                     </div>
                     <span asp-validation-for="EmissionFactor" class="text-danger"></span>
