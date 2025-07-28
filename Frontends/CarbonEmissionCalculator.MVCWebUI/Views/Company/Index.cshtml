@@ -34,10 +34,18 @@
                             </div>
 
 
-                            <a href="@Url.Action("Select", new { id = company.Id })" class="btn btn-primary w-100">
-                                <i class="bx bx-check-circle me-1"></i>
-                                Bu Firmayı Seç
+                            <a asp-controller="Company" asp-action="ExportExcel" asp-route-id="@company.Id" class="btn btn-info mt-2">
+                                <i class="bx bxs-file-export me-1"></i>
+                                Excel Raporu Al
                             </a>
+
+                            <form asp-controller="Company" asp-action="Delete" asp-route-id="@company.Id" method="post" onsubmit="return confirm('Bu firmayı silmek istediğinizden emin misiniz?');">
+                                <button type="submit" class="btn btn-danger w-100 mt-2">
+                                    <i class="bx bx-trash me-1"></i>
+                                    Firmayı Sil
+                                </button>
+                                @Html.AntiForgeryToken() @* CSRF koruması için gereklidir *@
+                            </form>
                         </div>
                     </div>
                 </div>

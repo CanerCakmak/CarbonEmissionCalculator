@@ -30,7 +30,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var group = await _unitOfWork.GetReadRepository<WastewaterTreatmentCalculationGroup>()
-                .GetAsync(x => x.Id == id, include: q => q.Include(g => g.Rows));
+                .GetAsync(x => x.Id == id, include: q => q.Include(g => g.Rows).Include(x => x.Company));
             return View(group);
         }
         [HttpGet]
@@ -44,7 +44,6 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         {
             var group = new WastewaterTreatmentCalculationGroup
             {
-                FirmName = model.FirmName,
                 CompanyId = model.CompanyId,
                 Rows = new List<WastewaterTreatmentCalculationRow>()
             };
@@ -67,8 +66,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
                         Unit = row.Unit,
                         EmissionFactor = row.EmissionFactor,
                         KgCO2e = row.KgCO2e,
-                        TonCO2e = row.TonCO2e,
-                        FirmName = model.FirmName
+                        TonCO2e = row.TonCO2e
                     };
                     await _unitOfWork.GetWriteRepository<WastewaterTreatmentCalculationRow>().AddAsync(entity);
                 }

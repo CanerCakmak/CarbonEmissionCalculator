@@ -28,7 +28,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
-            MobileOnRoadDieselCalculation value = await _unitOfWork.GetReadRepository<MobileOnRoadDieselCalculation>().GetAsync(x => x.Id == id);
+            MobileOnRoadDieselCalculation value = await _unitOfWork.GetReadRepository<MobileOnRoadDieselCalculation>().GetAsync(x => x.Id == id, include: x => x.Include(x => x.Company));
 
             return View(value);
         }
