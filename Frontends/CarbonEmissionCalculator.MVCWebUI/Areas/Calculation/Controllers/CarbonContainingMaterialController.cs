@@ -1,10 +1,10 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
-using CarbonEmissionCalculator.Application.Interfaces.Repositories;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
 using CarbonEmissionCalculator.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using CarbonEmissionCalculator.MVCWebUI.Models;
 using Microsoft.EntityFrameworkCore;
+using CarbonEmissionCalculator.MVCWebUI.Services;
 
 namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
 {
@@ -13,17 +13,19 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomMapper _customMapper;
+        private readonly CompanyService _companyService;
 
-        public CarbonContainingMaterialController(IUnitOfWork unitOfWork, ICustomMapper customMapper)
+        public CarbonContainingMaterialController(IUnitOfWork unitOfWork, ICustomMapper customMapper, Services.CompanyService companyService)
         {
             _unitOfWork = unitOfWork;
             _customMapper = customMapper;
+            _companyService = companyService;
         }
 
         public async Task<IActionResult> Index()
         {
             var groups = await _unitOfWork.GetReadRepository<CarbonContainingMaterialCalculationGroup>()
-                .GetAllAsync(include: q => q.Include(g => g.Rows));
+                .GetAllAsync(include: q => q.Include(g => g.Rows).Include(x => x.Company));
             return View(groups);
         }
         public async Task<IActionResult> Detail(int id)
@@ -33,17 +35,21 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return View(group);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.CompanyList = await _companyService.GetCompanyListForDropdownAsync();
+
             return View(new CarbonContainingMaterialCreateViewModel { Rows = new List<CarbonContainingMaterialRow>() });
         }
         [HttpPost]
         public async Task<IActionResult> Create(CarbonContainingMaterialCreateViewModel model)
         {
+
+
             var group = new CarbonContainingMaterialCalculationGroup
             {
                 FirmName = model.FirmName,
-                CreatedAt = DateTime.Now,
+                CompanyId = model.CompanyId,
                 Rows = new List<CarbonContainingMaterialCalculationRow>()
             };
             await _unitOfWork.GetWriteRepository<CarbonContainingMaterialCalculationGroup>().AddAsync(group);

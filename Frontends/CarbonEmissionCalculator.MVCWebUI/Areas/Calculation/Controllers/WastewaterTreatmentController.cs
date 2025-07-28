@@ -1,8 +1,9 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
 using CarbonEmissionCalculator.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
 using CarbonEmissionCalculator.MVCWebUI.Models;
+using CarbonEmissionCalculator.MVCWebUI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
@@ -12,16 +13,18 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomMapper _customMapper;
+        private readonly CompanyService _companyService;
 
-        public WastewaterTreatmentController(IUnitOfWork unitOfWork, ICustomMapper customMapper)
+        public WastewaterTreatmentController(IUnitOfWork unitOfWork, ICustomMapper customMapper, CompanyService companyService)
         {
             _unitOfWork = unitOfWork;
             _customMapper = customMapper;
+            _companyService = companyService;
         }
         public async Task<IActionResult> Index()
         {
             var groups = await _unitOfWork.GetReadRepository<WastewaterTreatmentCalculationGroup>()
-                .GetAllAsync(include: q => q.Include(g => g.Rows));
+                .GetAllAsync(include: q => q.Include(g => g.Rows).Include(x => x.Company));
             return View(groups);
         }
         public async Task<IActionResult> Detail(int id)
@@ -31,8 +34,9 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return View(group);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.CompanyList = await _companyService.GetCompanyListForDropdownAsync();
             return View(new WastewaterTreatmentCreateViewModel { Rows = new List<WastewaterTreatmentRow>() });
         }
         [HttpPost]
@@ -41,7 +45,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             var group = new WastewaterTreatmentCalculationGroup
             {
                 FirmName = model.FirmName,
-                CreatedAt = DateTime.Now,
+                CompanyId = model.CompanyId,
                 Rows = new List<WastewaterTreatmentCalculationRow>()
             };
             await _unitOfWork.GetWriteRepository<WastewaterTreatmentCalculationGroup>().AddAsync(group);

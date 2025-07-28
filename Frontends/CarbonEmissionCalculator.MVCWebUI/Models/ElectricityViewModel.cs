@@ -23,5 +23,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Models
 
         [Display(Name = "Toplam Emisyon (ton CO2e)")]
         public double TotalEmission { get; set; }
+
+        public int CompanyId { get; set; }
     }
 } 

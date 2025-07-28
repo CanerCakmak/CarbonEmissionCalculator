@@ -6,10 +6,11 @@ namespace CarbonEmissionCalculator.Domain.Entities
 {
     public class WastewaterTreatmentCalculationGroup : BaseEntity
     {
-        public string FirmName { get; set; }
-        public DateTime CreatedAt { get; set; }
         public List<WastewaterTreatmentCalculationRow> Rows { get; set; }
         public double GrandTotalKg { get; set; }
         public double GrandTotalTon { get; set; }
+
+        public int CompanyId { get; set; }
+        public Company Company { get; set; }
     }
 } 

@@ -33,7 +33,7 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>@item.FirmName</td>
+                                    <td>@item.Company.Name</td>
                                     <td>@item.CreatedAt.ToString("dd.MM.yyyy HH:mm:ss")</td>
                                     <td>@(item.Rows != null ? item.Rows.Count : 0)</td>
                                     <td>@item.TotalCO2eTon.ToString("F6")</td>

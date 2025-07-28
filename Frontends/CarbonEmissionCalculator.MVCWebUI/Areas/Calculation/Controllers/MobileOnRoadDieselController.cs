@@ -1,7 +1,9 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
 using CarbonEmissionCalculator.Domain.Entities;
+using CarbonEmissionCalculator.MVCWebUI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
 {
@@ -10,15 +12,17 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomMapper _customMapper;
+        private readonly CompanyService _companyService;
 
-        public MobileOnRoadDieselController(IUnitOfWork unitOfWork, ICustomMapper customMapper)
+        public MobileOnRoadDieselController(IUnitOfWork unitOfWork, ICustomMapper customMapper, CompanyService companyService)
         {
             _unitOfWork = unitOfWork;
             _customMapper = customMapper;
+            _companyService = companyService;
         }
         public async Task<IActionResult> Index()   
         {
-            IList<MobileOnRoadDieselCalculation> values = await _unitOfWork.GetReadRepository<MobileOnRoadDieselCalculation>().GetAllAsync();
+            IList<MobileOnRoadDieselCalculation> values = await _unitOfWork.GetReadRepository<MobileOnRoadDieselCalculation>().GetAllAsync(include: v => v.Include(v => v.Company));
 
             return View(values);
         }
@@ -29,8 +33,9 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return View(value);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.CompanyList = await _companyService.GetCompanyListForDropdownAsync();
             return View();
         }
         [HttpPost]

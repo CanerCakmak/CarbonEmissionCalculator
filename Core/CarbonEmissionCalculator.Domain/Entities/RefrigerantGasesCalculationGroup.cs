@@ -6,10 +6,11 @@ namespace CarbonEmissionCalculator.Domain.Entities
 {
     public class RefrigerantGasesCalculationGroup : BaseEntity
     {
-        public string FirmName { get; set; }
-        public DateTime CreatedAt { get; set; }
         public List<RefrigerantGasesCalculation> Rows { get; set; }
         public double TotalCO2e { get; set; }
         public double TotalCO2eTon { get; set; }
+
+        public int CompanyId { get; set; }
+        public Company Company { get; set; }
     }
 } 

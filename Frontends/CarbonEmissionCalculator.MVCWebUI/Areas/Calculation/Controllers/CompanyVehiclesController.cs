@@ -1,7 +1,8 @@
 ﻿using CarbonEmissionCalculator.Application.Interfaces.AutoMapper;
 using CarbonEmissionCalculator.Application.Interfaces.UnitOfWorks;
-using CarbonEmissionCalculator.MVCWebUI.Models;
 using CarbonEmissionCalculator.Domain.Entities;
+using CarbonEmissionCalculator.MVCWebUI.Models;
+using CarbonEmissionCalculator.MVCWebUI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,15 +13,17 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomMapper _customMapper;
+        private readonly CompanyService _companyService;
 
-        public CompanyVehiclesController(IUnitOfWork unitOfWork, ICustomMapper customMapper)
+        public CompanyVehiclesController(IUnitOfWork unitOfWork, ICustomMapper customMapper, CompanyService companyService)
         {
             _unitOfWork = unitOfWork;
             _customMapper = customMapper;
+            _companyService = companyService;
         }
         public async Task<IActionResult> Index()
         {
-            IList<CompanyVehiclesCalculationGroup> values = await _unitOfWork.GetReadRepository<CompanyVehiclesCalculationGroup>().GetAllAsync(include: x=> x.Include(x=>x.Rows));
+            IList<CompanyVehiclesCalculationGroup> values = await _unitOfWork.GetReadRepository<CompanyVehiclesCalculationGroup>().GetAllAsync(include: x=> x.Include(x=>x.Rows).Include(x=>x.Company));
             return View(values);
         }
         public async Task<IActionResult> Detail(int id)
@@ -29,8 +32,10 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             return View(group);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.CompanyList = await _companyService.GetCompanyListForDropdownAsync();
+
             return View();
         }
         [HttpPost]
@@ -39,6 +44,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
             var group = new CompanyVehiclesCalculationGroup
             {
                 FirmName = model.FirmName,
+                CompanyId = model.CompanyId,
                 CreatedAt = DateTime.Now,
                 Rows = new List<CompanyVehiclesCalculation>()
             };

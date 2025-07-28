@@ -1,4 +1,4 @@
-@model CarbonEmissionCalculator.MVCWebUI.Models.Company
+@model CarbonEmissionCalculator.Domain.Entities.Company
 @{
     ViewData["Title"] = "Yeni Firma Ekle";
 }
@@ -22,32 +22,6 @@
                             <label asp-for="Name" class="form-label">Firma Adı</label>
                             <input asp-for="Name" class="form-control" placeholder="Firma adını girin" />
                             <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="TaxNumber" class="form-label">Vergi Numarası</label>
-                            <input asp-for="TaxNumber" class="form-control" placeholder="Vergi numarasını girin" />
-                            <span asp-validation-for="TaxNumber" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Address" class="form-label">Adres</label>
-                            <textarea asp-for="Address" class="form-control" rows="3" placeholder="Firma adresini girin"></textarea>
-                            <span asp-validation-for="Address" class="text-danger"></span>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="PhoneNumber" class="form-label">Telefon</label>
-                                <input asp-for="PhoneNumber" class="form-control" placeholder="Telefon numarasını girin" />
-                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Email" class="form-label">E-posta</label>
-                                <input asp-for="Email" class="form-control" placeholder="E-posta adresini girin" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
                         </div>
 
                         <div class="mt-4">

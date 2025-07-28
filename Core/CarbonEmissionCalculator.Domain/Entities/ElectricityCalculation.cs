@@ -13,5 +13,8 @@ namespace CarbonEmissionCalculator.Domain.Entities
         public double ConsumptionAmount { get; set; }
         public double EmissionFactor { get; set; }
         public double TotalEmission { get; set; }
+
+        public int CompanyId { get; set; }
+        public Company Company { get; set; }
     }
 }

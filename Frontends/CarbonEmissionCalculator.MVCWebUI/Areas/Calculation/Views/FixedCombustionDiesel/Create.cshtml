@@ -16,9 +16,20 @@
         <form id="fixedCombustionForm" method="post">
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <label class="form-label">Firma İsmi</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="firmName" asp-for="FirmName" required />
+                    <div class="col-md-12">
+                        <label class="form-label">Firma İsmi</label>
+                        <div class="input-group">
+                            <select class="form-select" asp-for="CompanyId" name="CompanyId" id="CompanyId" required>
+                                <option value="">Lütfen Firma Seçiniz</option>
+                                @if (ViewBag.CompanyList != null)
+                                {
+                                    foreach (var company in ViewBag.CompanyList)
+                                    {
+                                        <option value="@company.Value">@company.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
                     </div>
                 </div>
                 

@@ -1,4 +1,4 @@
-@model IEnumerable<CarbonEmissionCalculator.MVCWebUI.Models.Company>
+@model IEnumerable<CarbonEmissionCalculator.Domain.Entities.Company>
 @{
     ViewData["Title"] = "Firma Seçimi";
 }
@@ -29,33 +29,10 @@
                                 <i class="bx bx-building-house text-primary" style="font-size: 2.5rem;"></i>
                                 <div class="ms-3">
                                     <h5 class="card-title mb-0">@company.Name</h5>
-                                    <small class="text-muted">@company.TaxNumber</small>
+
                                 </div>
                             </div>
-                            
-                            @if (!string.IsNullOrEmpty(company.Address))
-                            {
-                                <p class="card-text mb-2">
-                                    <i class="bx bx-map-pin me-1"></i>
-                                    @company.Address
-                                </p>
-                            }
-                            
-                            @if (!string.IsNullOrEmpty(company.PhoneNumber))
-                            {
-                                <p class="card-text mb-2">
-                                    <i class="bx bx-phone me-1"></i>
-                                    @company.PhoneNumber
-                                </p>
-                            }
-                            
-                            @if (!string.IsNullOrEmpty(company.Email))
-                            {
-                                <p class="card-text mb-3">
-                                    <i class="bx bx-envelope me-1"></i>
-                                    @company.Email
-                                </p>
-                            }
+
 
                             <a href="@Url.Action("Select", new { id = company.Id })" class="btn btn-primary w-100">
                                 <i class="bx bx-check-circle me-1"></i>

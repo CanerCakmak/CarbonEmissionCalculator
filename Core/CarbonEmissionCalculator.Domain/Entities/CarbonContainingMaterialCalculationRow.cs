@@ -16,6 +16,5 @@ namespace CarbonEmissionCalculator.Domain.Entities
         public double TotalEmissionTon { get; set; }
         public int GroupId { get; set; }
         public CarbonContainingMaterialCalculationGroup Group { get; set; }
-        public string FirmName { get; set; }
     }
 } 
