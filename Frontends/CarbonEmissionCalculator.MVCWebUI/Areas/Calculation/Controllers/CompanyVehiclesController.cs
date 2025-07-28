@@ -28,7 +28,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
-            var group = await _unitOfWork.GetReadRepository<CompanyVehiclesCalculationGroup>().GetAsync(x => x.Id == id, include: x => x.Include(x => x.Rows));
+            var group = await _unitOfWork.GetReadRepository<CompanyVehiclesCalculationGroup>().GetAsync(x => x.Id == id, include: x => x.Include(x => x.Rows).Include(x=>x.Company));
             return View(group);
         }
         [HttpGet]
@@ -43,7 +43,6 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         {
             var group = new CompanyVehiclesCalculationGroup
             {
-                FirmName = model.FirmName,
                 CompanyId = model.CompanyId,
                 CreatedAt = DateTime.Now,
                 Rows = new List<CompanyVehiclesCalculation>()
@@ -62,7 +61,6 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
                     var entity = new CompanyVehiclesCalculation
                     {
                         GroupId = group.Id,
-                        FirmName = model.FirmName,
                         VehicleType = row.VehicleType,
                         FuelType = row.FuelType,
                         Distance = row.Distance,

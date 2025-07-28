@@ -28,7 +28,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
-            FixedCombustionLPGCalculation value = await _unitOfWork.GetReadRepository<FixedCombustionLPGCalculation>().GetAsync(x => x.Id == id);
+            FixedCombustionLPGCalculation value = await _unitOfWork.GetReadRepository<FixedCombustionLPGCalculation>().GetAsync(x => x.Id == id, include: x => x.Include(x => x.Company));
 
             return View(value);
         }

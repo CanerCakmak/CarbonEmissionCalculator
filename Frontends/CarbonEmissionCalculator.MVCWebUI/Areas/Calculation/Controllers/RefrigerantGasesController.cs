@@ -29,7 +29,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
-            var group = await _unitOfWork.GetReadRepository<RefrigerantGasesCalculationGroup>().GetAsync(x => x.Id == id, include: x => x.Include(x=> x.Rows));
+            var group = await _unitOfWork.GetReadRepository<RefrigerantGasesCalculationGroup>().GetAsync(x => x.Id == id, include: x => x.Include(x=> x.Rows).Include(x => x.Company));
             return View(group);
         }
         [HttpGet]
@@ -43,7 +43,6 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
         {
             var group = new RefrigerantGasesCalculationGroup
             {
-                FirmName = model.FirmName,
                 CompanyId = model.CompanyId,
                 Rows = new List<RefrigerantGasesCalculation>()
             };
@@ -61,7 +60,6 @@ namespace CarbonEmissionCalculator.MVCWebUI.Areas.Calculation.Controllers
                     var entity = new RefrigerantGasesCalculation
                     {
                         GroupId = group.Id,
-                        FirmName = model.FirmName,
                         RefrigerantType = row.EquipmentType,
                         RefrigerantAmount = row.Amount,
                         GWPFactor = row.EmissionFactor,
