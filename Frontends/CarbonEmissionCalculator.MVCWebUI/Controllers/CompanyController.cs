@@ -105,7 +105,7 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
                 // Workbook'u bu templateStream üzerinden açýyoruz
                 using (var workbook = new XLWorkbook(templateStream))
                 {
-                    var worksheet = workbook.Worksheet("Total of GHG Emissions");
+                    var worksheet = workbook.Worksheet("Toplam Sera Gazý Emisyonlarý");
 
                     if (worksheet == null)
                     {
@@ -176,9 +176,9 @@ namespace CarbonEmissionCalculator.MVCWebUI.Controllers
                         companyvehiclesTotaln2o;
 
                     worksheet.Cell("D4").Value = MobileTotalCo2eton;
-                    worksheet.Cell("E4").Value = MobileTotalCo2;
-                    worksheet.Cell("F4").Value = MobileTotalCH4;
-                    worksheet.Cell("G4").Value = MobileTotalN2O;
+                    worksheet.Cell("E4").Value = MobileTotalCo2 / 1000;
+                    worksheet.Cell("F4").Value = MobileTotalCH4 / 1000;
+                    worksheet.Cell("G4").Value = MobileTotalN2O / 1000;
 
                     worksheet.Cell("D5").Value = refrigerantGasesCalculationGroup?.TotalCO2eTon ?? 0;
                     worksheet.Cell("D6").Value = wastewaterTreatmentCalculationGroup?.GrandTotalTon ?? 0;

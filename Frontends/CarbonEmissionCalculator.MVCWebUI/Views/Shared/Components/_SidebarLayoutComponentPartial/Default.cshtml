@@ -6,15 +6,15 @@
     .menu-sub .menu-sub {
         margin-left: 1rem !important;
     }
-    
+
     .menu-header {
         margin-top: 0.5rem !important;
         padding-top: 0.5rem !important;
     }
-    
-    .menu-header:first-child {
-        margin-top: 0 !important;
-    }
+
+        .menu-header:first-child {
+            margin-top: 0 !important;
+        }
 </style>
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -23,14 +23,14 @@
             <span class="app-brand-logo demo">
                 <img src="~/images/logo.jpeg" alt="Logo" style="height: 50px;" />
             </span>
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">firma</span>
+            <span class="app-brand-text menu-text fw-bolder ms-2" style="font-size: 24px;">ANKA</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
             <i class="bx bx-chevron-left bx-sm align-middle"></i>
         </a>
     </div>
-    
+
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
@@ -183,28 +183,28 @@
     document.addEventListener('DOMContentLoaded', function() {
         const currentPath = window.location.pathname.toLowerCase();
         const menuItems = document.querySelectorAll('.menu-item');
-        
+
         // Tüm menu-item'lardan active sınıfını kaldır
         menuItems.forEach(item => item.classList.remove('active'));
-        
+
         // Ana sayfadaysa
         if (currentPath === '/' || currentPath === '/home' || currentPath === '/home/index') {
             document.getElementById('homeMenuItem').classList.add('active');
             return;
         }
-        
+
         // Sabit Yanma sayfalarındaysa
         if (currentPath.includes('/calculation/fixedcombustion')) {
             document.getElementById('fixedCombustionMenuItem').classList.add('active');
             return;
         }
-        
+
         // Mobil Yanma sayfalarındaysa
         if (currentPath.includes('/calculation/mobile')) {
             document.getElementById('mobileCombustionMenuItem').classList.add('active');
             return;
         }
-        
+
         // Diğer sayfalar için
         menuItems.forEach(item => {
             const link = item.querySelector('.menu-link');
